@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,3 +14,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
     ->name('dashboard');
+
+// Admin routes
+Route::middleware(['auth' , 'isAdmin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+    });    
