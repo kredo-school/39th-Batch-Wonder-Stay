@@ -3,6 +3,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+# Admin
+use App\Http\Controllers\Admin\CitiesController;
+
 Route::get('/', function () {
     return redirect()->route('register');
 });
@@ -15,12 +18,19 @@ Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
     ->name('dashboard');
 
-// Admin routes
-Route::middleware(['auth' , 'isAdmin'])
+// Admin route group
+Route::middleware(['auth', 'isAdmin'])
     ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
 
+        //Login to the dashboard
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
         });
-    });    
+
+        //Cities
+        Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
+        Route::get('/cities/create', [CitiesController::class, 'create'])->name('cities.create');
+
+    });
