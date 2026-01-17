@@ -47,7 +47,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/home') }}">
                     @guest
                         WonderStay
                     @else
@@ -55,7 +55,7 @@
                             <img src="{{ asset('images/WonderStay.png') }}"
                                 alt="WonderStay"
                                 class="app-icon-img"
-                                href="{{ url('/shome') }}">
+                                >
                         </div>
                     @endguest
                 </a>
@@ -66,7 +66,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar --> <!--search bar-->
                     <ul class="navbar-nav me-auto">
-                        
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
