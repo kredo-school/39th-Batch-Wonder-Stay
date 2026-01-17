@@ -12,6 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -42,6 +43,22 @@
         height: 100%;
         object-fit: cover; /* ← はみ出し防止 */
     }
+    .home-search-bar {
+        background-color: #e5c68d
+    }
+    .search-bar-input{
+        background-color: #e5c68d
+    }
+    .search-bar-btn{
+        background-color: #fce9b9;
+    }
+    .search-bar-btn:hover{
+        background-color: #e5c68d;
+    }
+    .input-group-text{
+        border: none;
+        background-color: #e7d4b0;
+    }
 </style>
 <body>
     <div id="app">
@@ -65,9 +82,29 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar --> <!--search bar-->
-                    <ul class="navbar-nav me-auto">
+                    <div class="container py-3">
+                        <form class="mx-auto" style="max-width: 700px;">
+                            <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
+                            <!-- Check in -->
+                            <span class="input-group-text border-0">
+                                <span class="text-secondary small">DATE FOR CHECK-IN</span>
+                            </span>
+                            <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
 
-                    </ul>
+                            <!-- Check out -->
+                            <span class="input-group-text border-0">
+                                <span class="text-secondary small">DATE FOR CHECK-OUT</span>
+                            </span>
+                            <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
+
+                            <!-- Search -->
+                            <button class="btn px-4 fw-semibold search-bar-btn" type="button">
+                                <i class="bi bi-search" style="color: black"></i>
+                            </button>
+                            </div>
+                        </form>
+                    </div>
+
 
                     <!-- Right Side Of Navbar -->
 
