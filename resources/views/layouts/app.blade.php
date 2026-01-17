@@ -87,13 +87,13 @@
                             <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
                             <!-- Check in -->
                             <span class="input-group-text border-0">
-                                <span class="text-secondary small">DATE FOR CHECK-IN</span>
+                                <span class="text-secondary small">{{ __('DATE FOR CHECK-IN') }}</span>
                             </span>
                             <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
 
                             <!-- Check out -->
                             <span class="input-group-text border-0">
-                                <span class="text-secondary small">DATE FOR CHECK-OUT</span>
+                                <span class="text-secondary small">{{ __('DATE FOR CHECK-OUT') }}</span>
                             </span>
                             <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
 
