@@ -19,3 +19,8 @@
         @endforeach
     </select>
 </div>
+
+<div class="margin-top:12px;">
+    <label>City</label>
+    <input type="text" name="name" placeholder="City name">
+</div>
