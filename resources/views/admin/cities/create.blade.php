@@ -1,1 +1,21 @@
 <h1>Add City</h1>
+
+<div>
+    <leabel>Region</leabel>
+    <select name="region_id">
+        <option value="">-- Select Region --</option>
+        @foreach ($regions as $region)
+            <option value="{{ $region->id }}">{{ $region->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+<div class="margin-top: 12px;">
+    <label>Country</label>
+    <select name="country_id">
+        <option value="">-- Select Country --</option>
+        @foreach($countries as $country)
+            <option value="{{ $country->id }}">{{ $country->name }}</option>
+        @endforeach
+    </select>
+</div>

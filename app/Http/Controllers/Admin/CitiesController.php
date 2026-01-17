@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Region;
+use App\Models\Country;
 
 class CitiesController extends Controller
 {
@@ -12,9 +14,11 @@ class CitiesController extends Controller
         return 'Index Cities';
     }
 
-   public function create()
-{
-    return view('admin.cities.create');
-}
+    public function create()
+    {
+        $regions = Region::orderBy('name')->get();
+        $countries = Country::orderBy('name')->get();
 
+        return view('admin.cities.create', compact('regions', 'countries'));
+    }
 }
