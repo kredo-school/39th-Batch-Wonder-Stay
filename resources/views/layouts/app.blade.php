@@ -16,24 +16,61 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+<style>
+    .navbar-brand,
+    .nav-link {
+        color: #e5c68d !important;
+    }
+
+    .nav-link:hover,
+    .navbar-brand:hover {
+        color: #e5c68d !important;
+    }
+    .app-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #82755a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* ← 超重要 */
+    }
+
+    .app-icon-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ← はみ出し防止 */
+    }
+</style>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                    @guest
+                        WonderStay
+                    @else
+                        <div class="app-icon-wrapper">
+                            <img src="{{ asset('images/WonderStay.png') }}"
+                                alt="WonderStay"
+                                class="app-icon-img"
+                                href="{{ url('/shome') }}">
+                        </div>
+                    @endguest
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                    <!-- Left Side Of Navbar --> <!--search bar-->
                     <ul class="navbar-nav me-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
+
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
@@ -49,6 +86,25 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                    {{ currentLanguage()->native_name ?? 'Language' }}
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    @foreach (languages() as $language)
+                                        <li>
+                                            <a class="dropdown-item"
+                                            href="{{ route('language.switch', $language->code) }}">
+                                                {{ $language->native_name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li>
+                                <!--Currency button-->
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
