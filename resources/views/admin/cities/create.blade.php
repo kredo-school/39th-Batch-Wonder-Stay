@@ -1,10 +1,23 @@
 <h1>Add City</h1>
 
+@if (session('success'))
+    <p>{{ session('success') }}</p>
+@endif
+
+@if ($errors->any())
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
+
+
 <form method="POST" action="{{ route('admin.cities.store') }}">
     @csrf
-    
+
     <div>
-        <leabel>Region</leabel>
+        <label>Region</label>
         <select name="region_id">
             <option value="">-- Select Region --</option>
             @foreach ($regions as $region)
@@ -13,7 +26,7 @@
         </select>
     </div>
 
-    <div class="margin-top: 12px;">
+    <div class="margin-top:12px;">
         <label>Country</label>
         <select name="country_id">
             <option value="">-- Select Country --</option>
@@ -28,7 +41,7 @@
         <input type="text" name="name" placeholder="City name">
     </div>
 
-    <div class="margin-top: 12px;">
+    <div class="margin-top:12px;">
         <button type="submit">Save</button>
     </div>
 </form>
