@@ -32,3 +32,11 @@ th, td {
 .status.completed {
     color: #16a34a;
 }
+
+.status.active {
+    color: #16a34a;
+}
+
+.status.inactive {
+    color: #9ca3af;
+}
