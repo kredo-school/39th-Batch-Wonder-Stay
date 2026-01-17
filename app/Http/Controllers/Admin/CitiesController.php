@@ -16,9 +16,12 @@ class CitiesController extends Controller
     }
 
     public function create()
-    {
-        $regions = Region::orderBy('name')->get();
-        $countries = Country::orderBy('name')->get();
+    {   
+        /** Fetch regions and countries from DB
+         *  Pass them to the Blade view */ 
+
+        $regions = Region::orderBy('name')->get(); // Get all regions
+        $countries = Country::orderBy('name')->get(); // Get all conutries
 
         return view('admin.cities.create', compact('regions', 'countries'));
     }
@@ -26,13 +29,15 @@ class CitiesController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'region_id' => ['required', 'exists:regions,id'],
-            'country_id' => ['required', 'exists:countries,id'],
-            'name' => ['required', 'string', 'max:255'],
+            'region_id' => ['required', 'exists:regions,id'], //Region must exist
+            'country_id' => ['required', 'exists:countries,id'], //Country must exist
+            'name' => ['required', 'string', 'max:255'], // City name
         ]);
 
+        // Create city record
         City::create($validated);
 
+        // Redirect back with success message
         return redirect()->route('admin.cities.create')->with('success', 'City saved!');
     }
 }
