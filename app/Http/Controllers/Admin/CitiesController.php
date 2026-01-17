@@ -21,4 +21,9 @@ class CitiesController extends Controller
 
         return view('admin.cities.create', compact('regions', 'countries'));
     }
+
+    public function store()
+    {
+        return 'Store City okay';
+    }
 }

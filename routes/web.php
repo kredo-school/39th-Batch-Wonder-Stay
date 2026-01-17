@@ -32,5 +32,6 @@ Route::middleware(['auth', 'isAdmin'])
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
         Route::get('/cities/create', [CitiesController::class, 'create'])->name('cities.create');
+        Route::post('/cities', [CitiesController::class, 'store'])->name('cities.store');
 
     });
