@@ -12,7 +12,11 @@ class CitiesController extends Controller
 {
     public function index()
     {
-        return 'Index Cities';
+        // Get all cities with related region and country
+        $cities = City::with(['region', 'country'])->get();
+        
+        // Return cities list view
+        return view('admin.cities.index', compact('cities'));
     }
 
     public function create()
