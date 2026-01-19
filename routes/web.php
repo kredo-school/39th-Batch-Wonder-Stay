@@ -2,6 +2,9 @@
 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\TranslationController;
 
 # Admin
 use App\Http\Controllers\Admin\CitiesController;
@@ -18,8 +21,16 @@ Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
     ->name('dashboard');
 
-// Admin route group
-Route::middleware(['auth', 'isAdmin'])
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout');
+
+Route::get('/language/{code}', [LanguageController::class, 'switch'])
+    ->name('language.switch');
+
+Route::get('/translate-test', [TranslationController::class, 'show'])
+    ->name('translate.test');
+// Admin routes
+Route::middleware(['auth' , 'isAdmin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
