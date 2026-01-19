@@ -165,7 +165,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="background-color: rgba(153,142,104,0.25); min-height: 100vh;">
             @yield('content')
         </main>
     </div>
