@@ -1,6 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\TranslationController;
 
 Route::get('/', function () {
     return redirect()->route('register');
@@ -13,3 +17,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
     ->name('dashboard');
+
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout');
+
+Route::get('/language/{code}', [LanguageController::class, 'switch'])
+    ->name('language.switch');
+
+Route::get('/translate-test', [TranslationController::class, 'show'])
+    ->name('translate.test');
+// Admin routes
+Route::middleware(['auth' , 'isAdmin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+    });    
