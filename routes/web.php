@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
@@ -25,3 +26,12 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
+// Admin routes
+Route::middleware(['auth' , 'isAdmin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+    });    
