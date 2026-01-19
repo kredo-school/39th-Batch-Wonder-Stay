@@ -154,7 +154,7 @@
               <div class="d-flex justify-content-end gap-2">
                 <button type="submit" name="guest_open" value="0" class="btn btn-primary btn-sm">Apply</button>
                 <a class="btn btn-outline-secondary btn-sm"
-                   href="{{ request()->fullUrlWithQuery(['guest_open' => 0]) }}">Close</a>
+                   href="{{ url()->current()->request()->fullUrlWithQuery(['guest_open' => 0]) }}">Close</a>
               </div>
             </form>
           </div>
