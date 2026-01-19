@@ -1,6 +1,19 @@
-<h1>Admin Dashboard</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="/logout">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
+@section('title', 'Admin | Dashboard')
+
+@section('content')
+  {{-- KPI cards --}}
+
+  {{-- Quick actions --}}
+  
+  {{-- Tables --}}
+  <h1>Admin Dashboard</h1>
+
+  <form method="POST" action="/logout">
+      @csrf
+      <button type="submit">Logout</button>
+  </form>
+
+@endsection
+
