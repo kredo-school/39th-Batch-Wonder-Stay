@@ -1,0 +1,42 @@
+.table-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 16px;
+    margin-top: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+thead {
+    background: #f7f7f7;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    text-align: left;
+}
+
+.status.confirmed {
+    color: #2563eb;
+}
+
+.status.cancelled {
+    color: #dc2626;
+}
+
+.status.completed {
+    color: #16a34a;
+}
+
+.status.active {
+    color: #16a34a;
+}
+
+.status.inactive {
+    color: #9ca3af;
+}
