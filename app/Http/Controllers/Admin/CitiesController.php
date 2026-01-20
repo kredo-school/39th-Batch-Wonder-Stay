@@ -14,15 +14,15 @@ class CitiesController extends Controller
     {
         // Get all cities with related region and country
         $cities = City::with(['region', 'country'])->get();
-        
+
         // Return cities list view
         return view('admin.cities.index', compact('cities'));
     }
 
     public function create()
-    {   
+    {
         /** Fetch regions and countries from DB
-         *  Pass them to the Blade view */ 
+         *  Pass them to the Blade view */
 
         $regions = Region::orderBy('name')->get(); // Get all regions
         $countries = Country::orderBy('name')->get(); // Get all conutries
@@ -43,5 +43,39 @@ class CitiesController extends Controller
 
         // Redirect back with success message
         return redirect()->route('admin.cities.create')->with('success', 'City saved!');
+    }
+
+    // Show edit page
+    public function edit(City $city)
+    {
+        $regions = Region::orderBy('name')->get();
+        $countries = Country::orderBy('name')->get();
+
+        return view('admin.cities.edit', compact('city', 'regions', 'countries'));
+    }
+
+    // Update city data
+    public function update(Request $request, City $city)
+    {
+        $validated = $request->validate([
+            'region_id'  => ['required', 'exists:regions,id'],
+            'country_id' => ['required', 'exists:countries,id'],
+            'name'       => ['required', 'string', 'max:255'],
+        ]);
+
+        $city->update($validated);
+
+        return redirect()->route('admin.cities.index')
+            ->with('success', 'City updated!');
+    }
+
+    // Delete a city
+    public function destroy(City $city)
+    {
+        $city->delete();
+
+        return redirect()
+            ->route('admin.cities.index')
+            ->with('success', 'City deleted');
     }
 }
