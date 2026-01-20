@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return redirect()->route('register');
@@ -11,7 +12,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('main');
+
+Route::get('/main', [HomeController::class, 'index'])->name('main.page');
 
 Route::view('/dashboard', 'dashboard')
     ->middleware('auth')
@@ -25,3 +28,7 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
+
+Route::get('/', [HomeController::class, 'index'])
+    ->middleware('auth')
+    ->name('main');

@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .mainpage-title{
-        color: #AB9D83;
+        color: #c08d00;
     }
 
     .guest-selector {
@@ -33,13 +33,14 @@
         top: calc(100% + 6px);
         left: 0;
         width: 100%;
-        border: 1px solid #ccc;
+        border: 1px solid #febb02;
         background: #fff;
         padding: 10px;
-        z-index: 50;
+        z-index: 9999;
+        border-radius: 10px
     }
 
-    .row {
+    .guest-row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
@@ -66,7 +67,7 @@
     .search-bar{
         border: 2px solid #febb02;
         border-radius: 8px;
-        overflow: hidden;
+        overflow: visible;
     }
 
     .search-box{
@@ -78,6 +79,13 @@
         border-right: 1px solid #ddd;
         background: #fff;
     }
+
+  .guest-btn{
+    background-color: #febb02;
+    color: white;
+    border: 1px solid #febb02;
+    border-radius: 4px;
+  }
 
 </style>
 <div class="mainpage-title pt-2 h1 text-center">{{ __('Welcome to WonderStay') }}</div>
@@ -110,17 +118,20 @@
       @php
         $people = (int) request('people', 2);
         $rooms  = (int) request('rooms', 1);
-        $open   = request('guest_open') == '1';
+        $open   = (int)request('guest_open', 0) === 1;
       @endphp
 
       <div class="search-box guest-selector">
         <a class="guest-summary"
-           href="{{ request()->fullUrlWithQuery(['guest_open' => $open ? 0 : 1]) }}">
+           href="{{ route('main', [
+            'guest_open' => $open ? 0 : 1,
+            'people' => $people,
+            'rooms' => $rooms]) }}">
           <span class="icon">👤</span>
 
           <div class="text">
-            <div>{{ $people }} people</div>
-            <div>{{ $rooms }} room(s)</div>
+            <div>{{ $people }} {{ __('people') }}</div>
+            <div>{{ $rooms }} {{ __('room(s)') }}</div>
           </div>
 
           <span class="arrow ms-auto">▼</span>
@@ -133,8 +144,8 @@
                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
               @endforeach
 
-              <div class="d-flex justify-content-between mb-2">
-                <label>People</label>
+              <div class="guest-row">
+                <label>{{ __('People') }}</label>
                 <select name="people">
                   @for($i=1; $i<=10; $i++)
                     <option value="{{ $i }}" @selected($people === $i)>{{ $i }}</option>
@@ -142,8 +153,8 @@
                 </select>
               </div>
 
-              <div class="d-flex justify-content-between mb-2">
-                <label>Rooms</label>
+              <div class="guest-row">
+                <label>{{ __('Rooms') }}</label>
                 <select name="rooms">
                   @for($i=1; $i<=5; $i++)
                     <option value="{{ $i }}" @selected($rooms === $i)>{{ $i }}</option>
@@ -152,9 +163,9 @@
               </div>
 
               <div class="d-flex justify-content-end gap-2">
-                <button type="submit" name="guest_open" value="0" class="btn btn-primary btn-sm">Apply</button>
+                <button type="submit" name="guest_open" value="0" class="btn guest-btn btn-sm">{{ __('Apply') }}</button>
                 <a class="btn btn-outline-secondary btn-sm"
-                   href="{{ url()->current()->request()->fullUrlWithQuery(['guest_open' => 0]) }}">Close</a>
+                   href="{{ url()->current() }}?guest_open={{ $open ? 0 : 1 }}&people={{ $people }}&rooms={{ $rooms }}">{{ __('Close') }}</a>
               </div>
             </form>
           </div>
