@@ -66,7 +66,6 @@
 
     .search-bar{
         border: 2px solid #febb02;
-        border-radius: 8px;
         overflow: visible;
     }
 
@@ -89,7 +88,7 @@
 
 </style>
 <div class="mainpage-title pt-2 h1 text-center">{{ __('Welcome to WonderStay') }}</div>
-<div class="mainpage-title pt-3 pb-4 h4 text-center">{{ __('Please stay your wonder') }}</div>
+<div class="mainpage-title pt-3 pb-4 h4 text-center">{{ __('Please find your dream stay') }}</div>
 
 <div class="container mx-auto">
   <div class="row g-0 align-items-center search-bar">
@@ -107,7 +106,7 @@
         <div class="search-box">
             <i class="bi bi-calendar3 text-secondary"></i>
             <input type="date" class="form-control border-0 p-0 shadow-none">
-            <span class="vr mx-2"></span>
+            <span class="vr mx-0"></span>
             <i class="bi bi-calendar3 text-secondary"></i>
             <input type="date" class="form-control border-0 p-0 shadow-none">
         </div>
