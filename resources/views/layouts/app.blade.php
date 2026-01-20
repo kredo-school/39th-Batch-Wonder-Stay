@@ -82,29 +82,30 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar --> <!--search bar-->
-                    <div class="container py-3">
-                        <form class="mx-auto" style="max-width: 700px;">
-                            <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
-                            <!-- Check in -->
-                            <span class="input-group-text border-0">
-                                <span class="text-secondary small">DATE FOR CHECK-IN</span>
-                            </span>
-                            <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
+                    @if (!Request::routeIs('login', 'register', 'password.request', 'password.email', 'password.reset', 'verification.notice'))
+                        <div class="container py-3">
+                            <form class="mx-auto" style="max-width: 700px;">
+                                <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
+                                <!-- Check in -->
+                                <span class="input-group-text border-0">
+                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-IN') }}</span>
+                                </span>
+                                <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
 
-                            <!-- Check out -->
-                            <span class="input-group-text border-0">
-                                <span class="text-secondary small">DATE FOR CHECK-OUT</span>
-                            </span>
-                            <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
+                                <!-- Check out -->
+                                <span class="input-group-text border-0">
+                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-OUT') }}</span>
+                                </span>
+                                <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
 
-                            <!-- Search -->
-                            <button class="btn px-4 fw-semibold search-bar-btn" type="button">
-                                <i class="bi bi-search" style="color: black"></i>
-                            </button>
-                            </div>
-                        </form>
-                    </div>
-
+                                <!-- Search -->
+                                <button class="btn px-4 fw-semibold search-bar-btn" type="button">
+                                    <i class="bi bi-search" style="color: black"></i>
+                                </button>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
 
                     <!-- Right Side Of Navbar -->
 
@@ -139,9 +140,6 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li>
-                                <!--Currency button-->
-                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -171,3 +169,4 @@
     </div>
 </body>
 </html>
+
