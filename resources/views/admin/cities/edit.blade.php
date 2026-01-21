@@ -55,6 +55,6 @@
 
     {{-- Submit button --}}
     <div class="mt-12">
-        <button type="submit">Save</button>
+        <button type="submit">Update</button>
     </div>
 </form>
