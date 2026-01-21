@@ -5,13 +5,13 @@
         <li>
             {{ $city->name }}
             ({{ $city->region->name }} / {{ $city->country->name }})
-        </li>
-    @endforeach    
-</ul>
 
-{{-- Delete button --}}
-<form  method="POST" action="{{ route('admin.cities.destroy', $city->id) }}">
-    @csrf
-    @method('DELETE')
-    <button type="submit">Delete</button>
-</form>
+            {{-- Delete button --}}
+            <form method="POST" action="{{ route('admin.cities.destroy', $city->id) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    @endforeach
+</ul>

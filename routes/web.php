@@ -45,7 +45,7 @@ Route::middleware(['auth' , 'isAdmin'])
         Route::get('/cities/create', [CitiesController::class, 'create'])->name('cities.create');
         Route::post('/cities', [CitiesController::class, 'store'])->name('cities.store');
         Route::get('/cities/{city}/edit', [CitiesController::class, 'edit'])->name('cities.edit');
-        Route::patch('/cities/{city}/', [CitiesController::class, 'update'])->name('cities.update');
-        Route::delete('/cities/{city}/', [CitiesController::class, 'destroy'])->name('cities.destroy');
+        Route::patch('/cities/{city}', [CitiesController::class, 'update'])->name('cities.update');
+        Route::delete('/cities/{city}', [CitiesController::class, 'destroy'])->name('cities.destroy');
 
     });
