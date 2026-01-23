@@ -8,6 +8,9 @@ use App\Http\Controllers\TranslationController;
 
 # Admin
 use App\Http\Controllers\Admin\CitiesController;
+use App\Http\Controllers\Admin\CountriesController;
+
+
 
 Route::get('/', function () {
     return redirect()->route('register');
@@ -30,7 +33,7 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
 // Admin routes
-Route::middleware(['auth' , 'isAdmin'])
+Route::middleware(['auth', 'isAdmin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -48,4 +51,7 @@ Route::middleware(['auth' , 'isAdmin'])
         Route::patch('/cities/{city}', [CitiesController::class, 'update'])->name('cities.update');
         Route::delete('/cities/{city}', [CitiesController::class, 'destroy'])->name('cities.destroy');
 
+        //Countries
+        Route::get('/countries', [CountriesController::class, 'index'])->name('countries.index');
+        Route::delete('/countries/{country}', [CountriesController::class, 'destroy'])->name('countries.destroy');
     });
