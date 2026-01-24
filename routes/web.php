@@ -5,6 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\MainController;
+use App\Models\Region;
+
+Auth::routes();
 
 # Admin
 use App\Http\Controllers\Admin\CitiesController;
@@ -13,16 +20,18 @@ use App\Http\Controllers\Admin\CountriesController;
 
 
 Route::get('/', function () {
+    // ログイン済みなら main へ
+    if (auth()->check()) {
+        return redirect()->route('main');
+    }
+
+    // 未ログインなら register へ
     return redirect()->route('register');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::view('/dashboard', 'dashboard')
+Route::get('/main', [MainController::class, 'index'])
     ->middleware('auth')
-    ->name('dashboard');
+    ->name('main');
 
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
@@ -32,6 +41,15 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
+
+// hotels / map（今は仮のview直返しでOK）
+Route::view('/hotels', 'layouts.hotel.index')->name('hotels.index');
+Route::view('/map', 'layouts.map.index')->name('map.index');
+
+// regions
+Route::get('/regions', [RegionController::class, 'index']);
+Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
+    ->name('regions.hotels');
 // Admin routes
 Route::middleware(['auth', 'isAdmin'])
     ->prefix('admin')

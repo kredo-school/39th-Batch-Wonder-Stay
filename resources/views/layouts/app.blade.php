@@ -64,7 +64,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/home') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/main') }}">
                     @guest
                         WonderStay
                     @else
@@ -88,13 +88,13 @@
                                 <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
                                 <!-- Check in -->
                                 <span class="input-group-text border-0">
-                                    <span class="text-secondary small">DATE FOR CHECK-IN</span>
+                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-IN') }}</span>
                                 </span>
                                 <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
 
                                 <!-- Check out -->
                                 <span class="input-group-text border-0">
-                                    <span class="text-secondary small">DATE FOR CHECK-OUT</span>
+                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-OUT') }}</span>
                                 </span>
                                 <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
 
@@ -163,9 +163,10 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="background-color: rgba(153,142,104,0.25); min-height: 100vh;">
             @yield('content')
         </main>
     </div>
 </body>
 </html>
+

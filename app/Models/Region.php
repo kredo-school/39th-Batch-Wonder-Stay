@@ -14,4 +14,11 @@ class Region extends Model
         'name',
         'code',
     ];
+
+
+
+    public function hotels()
+    {
+        return $this->hasMany(Hotel::class);
+    }
 }
