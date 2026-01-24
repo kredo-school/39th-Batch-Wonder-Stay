@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
@@ -43,3 +44,12 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
+// Admin routes
+Route::middleware(['auth' , 'isAdmin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+    });    
