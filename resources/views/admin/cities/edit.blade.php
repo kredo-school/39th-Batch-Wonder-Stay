@@ -1,60 +1,90 @@
-<h1>Edit City</h1>
+<h1 style="margin:0 0 16px 0;">Edit City</h1>
 
-{{-- Show success message --}}
-@if (session('success'))
-    <p>{{ session('success') }}</p>
-@endif
+<div style="
+    max-width: 720px;
+    border:1px solid #bbb;
+    border-radius:10px;
+    padding:16px;
+  ">
 
-{{-- Show validation error messages --}}
-@if ($errors->any())
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
+  {{-- Success message --}}
+  @if (session('success'))
+    <div style="margin-bottom:12px; color:green;">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  {{-- Validation error messages --}}
+  @if ($errors->any())
+    <ul style="margin-bottom:12px; color:#b00020;">
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
     </ul>
-@endif
+  @endif
 
-{{-- Edit city form --}}
-<form method="POST" action="{{ route('admin.cities.update', $city->id) }}">
+  {{-- Edit city form --}}
+  <form method="POST" action="{{ route('admin.cities.update', $city) }}">
     @csrf
-    @method('PATCH') 
+    @method('PATCH')
 
-    {{-- Region select (pre-selected with current city region) --}}
-    <div>
-        <label>Region</label>
-        <select name="region_id">
-            <option value="">-- Select Region --</option>
-            @foreach ($regions as $region)
-                <option value="{{ $region->id }}"
-                    {{ old('region_id', $city->region_id) == $region->id ? 'selected' : '' }}>
-                    {{ $region->name }}
-                </option>
-            @endforeach
-        </select>
+    {{-- Region --}}
+    <div style="margin-bottom:14px;">
+      <label style="display:block; margin-bottom:6px; font-weight:600;">
+        Region
+      </label>
+      <select name="region_id"
+              style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;">
+        <option value="">-- Select Region --</option>
+        @foreach ($regions as $region)
+          <option value="{{ $region->id }}"
+            {{ old('region_id', $city->region_id) == $region->id ? 'selected' : '' }}>
+            {{ $region->name }}
+          </option>
+        @endforeach
+      </select>
     </div>
 
-    {{-- Country select (pre-selected with current city country) --}}
-    <div class="mt-12">
-        <label>Country</label>
-        <select name="country_id">
-            <option value="">-- Select Country --</option>
-            @foreach ($countries as $country)
-                <option value="{{ $country->id }}"
-                    {{ old('country_id', $city->country_id) == $country->id ? 'selected' : '' }}>
-                    {{ $country->name }}
-                </option>
-            @endforeach
-        </select>
+    {{-- Country --}}
+    <div style="margin-bottom:14px;">
+      <label style="display:block; margin-bottom:6px; font-weight:600;">
+        Country
+      </label>
+      <select name="country_id"
+              style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;">
+        <option value="">-- Select Country --</option>
+        @foreach ($countries as $country)
+          <option value="{{ $country->id }}"
+            {{ old('country_id', $city->country_id) == $country->id ? 'selected' : '' }}>
+            {{ $country->name }}
+          </option>
+        @endforeach
+      </select>
     </div>
 
-    {{-- City name input (pre-filled with current city name)--}}
-    <div class="mt-12">
-        <label>City</label>
-        <input type="text" name="name" value="{{ old('name', $city->name) }}">
+    {{-- City --}}
+    <div style="margin-bottom:16px;">
+      <label style="display:block; margin-bottom:6px; font-weight:600;">
+        City
+      </label>
+      <input type="text"
+             name="name"
+             value="{{ old('name', $city->name) }}"
+             style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;">
     </div>
 
-    {{-- Submit button --}}
-    <div class="mt-12">
-        <button type="submit">Update</button>
+    {{-- Buttons --}}
+    <div style="display:flex; gap:10px;">
+      <button type="submit"
+              style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; background:#fff; cursor:pointer;">
+        Update
+      </button>
+
+      <a href="{{ route('admin.cities.index') }}"
+         style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
+        Cancel
+      </a>
     </div>
-</form>
+
+  </form>
+</div>
