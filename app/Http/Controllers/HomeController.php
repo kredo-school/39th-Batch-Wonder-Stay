@@ -24,7 +24,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        $people = $request->query('people', 2);
+        $people = $request->query('people', 1);
         $rooms = $request->query('rooms', 1);
 
         return view('main', compact('people', 'rooms'));
