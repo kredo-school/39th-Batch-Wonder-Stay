@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
-class Region extends Model
+class Country extends Model
 {
-    use HasFactory;
+     use HasFactory;
 
     protected $fillable = [
         'name',
         'code',
     ];
 
+    public function cities()
+{
+    return $this->hasMany(\App\Models\City::class);
+}
 
-
-    public function hotels()
-    {
-        return $this->hasMany(Hotel::class);
-    }
 }
