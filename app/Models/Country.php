@@ -13,4 +13,10 @@ class Country extends Model
         'name',
         'code',
     ];
+
+    public function cities()
+{
+    return $this->hasMany(\App\Models\City::class);
+}
+
 }

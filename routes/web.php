@@ -55,3 +55,4 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/countries', [CountriesController::class, 'index'])->name('countries.index');
         Route::delete('/countries/{country}', [CountriesController::class, 'destroy'])->name('countries.destroy');
     });
+  

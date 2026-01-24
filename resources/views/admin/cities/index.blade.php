@@ -13,14 +13,20 @@
     ">
     <div style="font-weight:700; margin-bottom:10px;">Region List</div>
     <div style="display:flex; flex-direction:column; gap:6px; font-size:14px;">
-      <div>North America</div>
-      <div>South America</div>
-      <div>Europe</div>
-      <div>Asia</div>
-      <div>Oceania</div>
-      <div>Middle East</div>
-      <div>Africa</div>
-    </div>
+
+  @foreach ($regions as $r)
+    <a href="{{ route('admin.cities.index', ['region_id' => $r->id]) }}"
+       style="
+         color:#fff; text-decoration:none; padding:6px 8px; border-radius:8px;
+         {{ (string)$regionId === (string)$r->id ? 'background:#444;' : '' }}
+       ">
+      {{ $r->name }}
+    </a>
+  @endforeach
+
+</div>
+
+
   </aside>
 
   {{-- Main --}}
@@ -37,13 +43,49 @@
 </div>
 
 
-    {{-- Actions row --}}
-    <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-      <a href="{{ route('admin.cities.create') }}"
-         style="padding:6px 10px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
-        Add +
-      </a>
-    </div>
+   {{-- Actions row (Country dropdown on the left / Add+ on the right) --}}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+
+ {{-- Country filter (auto submit on change) --}}
+<form method="GET"
+      action="{{ route('admin.cities.index') }}"
+      style="margin:0;">
+
+  {{-- Keep selected region when filtering by country --}}
+  @if (!empty($regionId))
+    <input type="hidden" name="region_id" value="{{ $regionId }}">
+  @endif
+
+  {{-- Country dropdown --}}
+  <select name="country_id"
+          onchange="this.form.submit()"
+          style="
+            padding:6px 10px;
+            border:1px solid #bbb;
+            border-radius:8px;
+            min-width:220px;
+          ">
+    <option value="">Select Countries</option>
+
+    @foreach ($countries as $country)
+      <option value="{{ $country->id }}"
+        {{ (string)$countryId === (string)$country->id ? 'selected' : '' }}>
+        {{ $country->name }}
+      </option>
+    @endforeach
+  </select>
+
+</form>
+
+
+
+  {{-- Add button --}}
+  <a href="{{ route('admin.cities.create') }}"
+     style="padding:6px 10px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
+    Add +
+  </a>
+</div>
+
 
     {{-- Table --}}
     <div style="border:1px solid #bbb; border-radius:10px; overflow:hidden;">

@@ -10,14 +10,42 @@ use App\Models\City;
 
 class CitiesController extends Controller
 {
-    public function index()
-    {
-        // Get all cities with related region and country
-        $cities = City::with(['region', 'country'])->get();
+  public function index(Request $request)
+{
+    $regionId  = $request->query('region_id');
+    $countryId = $request->query('country_id');
 
-        // Return cities list view
-        return view('admin.cities.index', compact('cities'));
-    }
+    // Cities list (filter by region first, then country)
+    $cities = City::with(['region', 'country'])
+        ->when($regionId, function ($q) use ($regionId) {
+            $q->where('region_id', $regionId);
+        })
+        ->when($countryId, function ($q) use ($countryId) {
+            $q->where('country_id', $countryId);
+        })
+        ->orderBy('name')
+        ->get();
+
+    // Regions for left sidebar
+    $regions = \App\Models\Region::orderBy('name')->get();
+
+    // Countries for dropdown:
+    // If region is selected, show ONLY countries that have cities in that region
+    $countries = \App\Models\Country::query()
+        ->when($regionId, function ($q) use ($regionId) {
+            $q->whereHas('cities', function ($cityQ) use ($regionId) {
+                $cityQ->where('region_id', $regionId);
+            });
+        })
+        ->orderBy('name')
+        ->get();
+
+    return view('admin.cities.index', compact(
+        'cities', 'regions', 'countries', 'regionId', 'countryId'
+    ));
+}
+
+
 
     public function create()
     {
