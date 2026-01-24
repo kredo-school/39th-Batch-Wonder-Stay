@@ -64,7 +64,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/home') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url('/main') }}">
                     @guest
                         WonderStay
                     @else

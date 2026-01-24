@@ -13,16 +13,18 @@ use App\Models\Region;
 Auth::routes();
 
 Route::get('/', function () {
+    // ログイン済みなら main へ
+    if (auth()->check()) {
+        return redirect()->route('main');
+    }
+
+    // 未ログインなら register へ
     return redirect()->route('register');
 });
 
 Route::get('/main', [MainController::class, 'index'])
     ->middleware('auth')
     ->name('main');
-
-Route::view('/dashboard', 'dashboard')
-    ->middleware('auth')
-    ->name('dashboard');
 
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
