@@ -16,6 +16,7 @@ Auth::routes();
 # Admin
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\HotelsController;
 
 
 
@@ -72,5 +73,12 @@ Route::middleware(['auth', 'isAdmin'])
         //Countries
         Route::get('/countries', [CountriesController::class, 'index'])->name('countries.index');
         Route::delete('/countries/{country}', [CountriesController::class, 'destroy'])->name('countries.destroy');
+
+        // Hotels
+        Route::get('/hotels', [HotelsController::class, 'index'])->name('hotels.index');
+        Route::get('/hotels/create', [HotelsController::class, 'create'])->name('hotels.create');
+        Route::post('/hotels', [HotelsController::class, 'store'])->name('hotels.store');
+        Route::get('/hotels/{hotel}/edit', [HotelsController::class, 'edit'])->name('hotels.edit');
+        Route::patch('/hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
+        Route::delete('/hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
     });
-  
