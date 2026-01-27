@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 
 Route::get('/', function () {
     return redirect()->route('register');
@@ -35,3 +36,5 @@ Route::middleware(['auth' , 'isAdmin'])
             return view('admin.dashboard');
         });
     });    
+
+Route::get('/admin/payment-methods', [PaymentMethodController::class, 'index']);

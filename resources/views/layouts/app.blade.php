@@ -126,18 +126,18 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                    {{ currentLanguage()->native_name ?? 'Language' }}
+                                    {{-- {{ currentLanguage()->native_name ?? 'Language' }} --}}
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    @foreach (languages() as $language)
+                                    {{-- @foreach (languages() as $language)
                                         <li>
                                             <a class="dropdown-item"
                                             href="{{ route('language.switch', $language->code) }}">
                                                 {{ $language->native_name }}
                                             </a>
                                         </li>
-                                    @endforeach
+                                    @endforeach --}}
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
