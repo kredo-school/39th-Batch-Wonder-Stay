@@ -8,7 +8,9 @@ class Hotel extends Model
 {
     protected $fillable = [
         'name',
+        'city_id',
         'region_id',
+        'country_id',
         'description',
         'address',
         'phone',
@@ -16,13 +18,19 @@ class Hotel extends Model
         'photos',
     ];
 
-    // The photos column is stored as JSON in the database and should be handled as an array in PHP
     protected $casts = [
         'photos' => 'array',
     ];
 
-    public function region()
+    // Hotel belongs to Country
+    public function country()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }
+
