@@ -9,6 +9,10 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        // dammy data
+        $recentReservations = collect();
+        $upcomingCheckIns   = collect();
+
+        return view('admin.dashboard', compact('recentReservations', 'upcomingCheckIns'));
     }
 }

@@ -5,20 +5,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\MainController;
 use App\Models\Region;
+use App\Http\Controllers\Admin\CitiesController;
+use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\HotelsController;
 
 Auth::routes();
 
 # Admin
-use App\Http\Controllers\Admin\CitiesController;
-use App\Http\Controllers\Admin\CountriesController;
-use App\Http\Controllers\Admin\HotelsController;
-
-
 
 Route::get('/', function () {
     // ログイン済みなら main へ
@@ -51,16 +51,18 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
-// Admin routes
-Route::middleware(['auth', 'isAdmin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
+    
+    // Admin routes
+    Route::middleware(['auth', 'isAdmin'])
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
 
         //Login to the dashboard
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        });
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        //paymentmethods
+        Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
