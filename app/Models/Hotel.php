@@ -10,4 +10,15 @@ class Hotel extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(HotelPhoto::class);
+    }
+
+    public function mainPhoto()
+    {
+        return $this->hasOne(HotelPhoto::class)
+                    ->where('is_main', true);
+    }
 }

@@ -43,7 +43,10 @@ Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
 
 // hotels / map（今は仮のview直返しでOK）
-Route::view('/hotels', 'layouts.hotel.index')->name('hotels.index');
+Route::get('/hotels', [HotelController::class, 'index'])
+    ->name('hotels.index');
+Route::get('/hotels/{id}', [HotelController::class, 'show'])
+    ->name('hotels.show');
 Route::view('/map', 'layouts.map.index')->name('map.index');
 
 // regions
