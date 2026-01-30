@@ -21,8 +21,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        return view('home');
+        $people = $request->query('people', 1);
+        $rooms = $request->query('rooms', 1);
+
+        return view('main', compact('people', 'rooms'));
     }
 }
