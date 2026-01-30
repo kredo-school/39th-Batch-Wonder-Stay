@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Country;
 
 
 class Region extends Model
@@ -15,10 +16,13 @@ class Region extends Model
         'code',
     ];
 
-
-
     public function hotels()
     {
         return $this->hasMany(Hotel::class);
+    }
+
+    public function countries()
+    {
+        return $this->hasMany(Country::class);
     }
 }
