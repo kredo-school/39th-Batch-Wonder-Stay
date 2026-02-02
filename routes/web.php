@@ -15,11 +15,11 @@ use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\HotelsController;
+use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
 
 Auth::routes();
 
-# Admin
 
 Route::get('/', function () {
     // ログイン済みなら main へ
@@ -52,12 +52,12 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
-    
-    // Admin routes
-    Route::middleware(['auth', 'isAdmin'])
-        ->prefix('admin')
-        ->name('admin.')
-        ->group(function () {
+
+// Admin routes
+Route::middleware(['auth', 'isAdmin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
         //Login to the dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -85,4 +85,12 @@ Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
         Route::get('/hotels/{hotel}/edit', [HotelsController::class, 'edit'])->name('hotels.edit');
         Route::patch('/hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
         Route::delete('/hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
+
+        // Accommodations (Hotell Details)
+        Route::get('/accommodations', [AccommodationsController::class, 'index'])->name('accommodations.index');
+        Route::get('/accommodations/create', [AccommodationsController::class, 'create'])->name('accommodations.create');
+        Route::post('/accommodations', [AccommodationsController::class, 'store'])->name('accommodations.store');
+        Route::get('/accommodations/{hotelDetail}/edit', [AccommodationsController::class, 'edit'])->name('accommodations.edit');
+        Route::patch('/accommodations/{hotelDetail}', [AccommodationsController::class, 'update'])->name('accommodations.update');
+        Route::delete('/accommodations/{hotelDetail}', [AccommodationsController::class, 'destroy'])->name('accommodations.destroy');
     });
