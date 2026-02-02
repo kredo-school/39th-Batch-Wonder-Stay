@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
+use App\Http\Controllers\Admin\UserController;
 
 Auth::routes();
 
@@ -60,7 +61,8 @@ Route::middleware(['auth', 'isAdmin'])
 
         //Login to the dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
+        // users
+        Route::get('/users', [UserController::class, 'index'])->name('users');
         //paymentmethods
         Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods');
 
