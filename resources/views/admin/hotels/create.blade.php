@@ -113,54 +113,70 @@
             </div>
 
             {{-- Buttons --}}
-            <div style="display:flex; gap:10px;">
-                <button type="submit"
-                    style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; background:#fff; cursor:pointer;">
-                    Save
-                </button>
-
+            <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">
                 <a href="{{ route('admin.hotels.index') }}"
-                    style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
+                    style="
+       padding:10px 22px;
+       border:1px solid #bbb;
+       border-radius:10px;
+       background:#fff;
+       color:#111;
+       text-decoration:none;
+       font-size:16px;
+       line-height:1;
+       box-shadow:0 1px 0 rgba(0,0,0,.08);
+     ">
                     Cancel
                 </a>
+
+                <button type="submit"
+                    style="
+            padding:10px 22px;
+            border:1px solid #444;
+            border-radius:10px;
+            background:#4b4f57;
+            color:#fff;
+            font-size:16px;
+            line-height:1;
+            cursor:pointer;
+            box-shadow:0 1px 0 rgba(0,0,0,.15);
+          ">
+                    Save
+                </button>
             </div>
+            {{-- Country -> City filtering --}}
+            <script>
+                const cities = @json($cities);
 
-        </form>
-    </div>
+                const countrySelect = document.getElementById('country-select');
+                const citySelect = document.getElementById('city-select');
 
-    {{-- Country -> City filtering --}}
-    <script>
-        const cities = @json($cities);
+                function resetCities(selectedCountryId, selectedCityId = null) {
+                    citySelect.innerHTML = '<option value="">-- Select City (optional) --</option>';
 
-        const countrySelect = document.getElementById('country-select');
-        const citySelect = document.getElementById('city-select');
+                    if (!selectedCountryId) return;
 
-        function resetCities(selectedCountryId, selectedCityId = null) {
-            citySelect.innerHTML = '<option value="">-- Select City (optional) --</option>';
+                    cities.forEach(city => {
+                        if (String(city.country_id) === String(selectedCountryId)) {
+                            const opt = document.createElement('option');
+                            opt.value = city.id;
+                            opt.textContent = city.name;
 
-            if (!selectedCountryId) return;
+                            if (selectedCityId && String(selectedCityId) === String(city.id)) {
+                                opt.selected = true;
+                            }
 
-            cities.forEach(city => {
-                if (String(city.country_id) === String(selectedCountryId)) {
-                    const opt = document.createElement('option');
-                    opt.value = city.id;
-                    opt.textContent = city.name;
-
-                    if (selectedCityId && String(selectedCityId) === String(city.id)) {
-                        opt.selected = true;
-                    }
-
-                    citySelect.appendChild(opt);
+                            citySelect.appendChild(opt);
+                        }
+                    });
                 }
-            });
-        }
 
-        // country change
-        countrySelect.addEventListener('change', () => {
-            resetCities(countrySelect.value);
-        });
+                // country change
+                countrySelect.addEventListener('change', () => {
+                    resetCities(countrySelect.value);
+                });
 
-        // initial load (if country already selected)
-        resetCities(countrySelect.value, "{{ old('city_id') }}");
-    </script>
-@endsection
+                // initial load (if country already selected)
+                resetCities(countrySelect.value, "{{ old('city_id') }}");
+            </script>
+        @endsection
