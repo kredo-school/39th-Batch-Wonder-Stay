@@ -11,18 +11,21 @@ class Hotel extends Model
 {
     protected $fillable = [
         'name',
-        'city_id',
-        'region_id',
-        'country_id',
+        'concept',
+        'feature',
+        'service',
         'description',
         'address',
         'phone',
         'email',
-        'photos',
+        'region_id',
+        'country_id',
+        'city_id',
     ];
 
     protected $casts = [
-        'photos' => 'array',
+        'service' => 'array',
+        'feature' => 'array',
     ];
 
     // Hotel belongs to Country
@@ -46,16 +49,5 @@ class Hotel extends Model
         return $this->hasOne(HotelPhoto::class)
                     ->where('is_main', true);
     }
-
-    protected $fillable = [
-    'name','concept','feature','service','description',
-    'address','phone','email',
-    'region_id','country_id','city_id'
-    ];
-
-    protected $casts = [
-    'service' => 'array',
-    'feature' => 'array',
-    ];
 }
 
