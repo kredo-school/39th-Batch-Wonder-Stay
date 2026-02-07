@@ -44,8 +44,14 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
 
-// hotels / map（今は仮のview直返しでOK）
-Route::view('/hotels', 'layouts.hotel.index')->name('hotels.index');
+//Hotels(Customer)
+Route::get('/hotels/{id}', [HotelController::class, 'index'])
+    ->whereNumber('id')
+    ->name('hotels.index');
+Route::get('/hotels/{id}/photos', [HotelController::class, 'show'])
+    ->whereNumber('id')
+    ->name('hotels.show');
+
 Route::view('/map', 'layouts.map.index')->name('map.index');
 
 // regions

@@ -272,7 +272,7 @@
             hotelList.innerHTML = '';
 
             if (filtered.length === 0) {
-              hotelList.innerHTML = `<li class="list-group-item text-muted">{{ __('There are no hotels in this region.') }}</li>`;
+              hotelList.innerHTML = `<li class="list-group-item text-muted">{{ __('No hotels in this region') }}</li>`;
               return;
             }
 

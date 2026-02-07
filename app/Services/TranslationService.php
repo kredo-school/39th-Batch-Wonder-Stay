@@ -11,7 +11,6 @@ class TranslationService
     {
         $key = $text;
 
-        // ① DBキャッシュ確認
         $cached = Translation::where('key', $key)
             ->where('locale', $locale)
             ->first();
@@ -19,8 +18,6 @@ class TranslationService
         if ($cached) {
             return $cached->text;
         }
-
-        // ③ 翻訳API
         $response = Http::post('http://localhost:5001/translate', [
             'q' => $text,
             'source' => 'en',
@@ -29,8 +26,6 @@ class TranslationService
         ]);
 
         $translated = $response->json('translatedText') ?? $text;
-
-            // UpdateOrCreate(ここが本命)
             Translation::updateOrCreate(
             [
                 'key' => $key,
