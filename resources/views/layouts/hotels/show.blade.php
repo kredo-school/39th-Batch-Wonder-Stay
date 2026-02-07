@@ -5,7 +5,6 @@
 @section('content')
 <style>
   .show-wrap{
-    background:#dcd7cd; /* 画像のベージュっぽい背景 */
     min-height: calc(100vh - 56px);
     padding: 40px 0 60px;
   }
@@ -13,8 +12,8 @@
   .hotel-title{
     font-family: serif;
     letter-spacing: .5px;
-    font-size: 64px;
-    color:#3b3b3b;
+    font-size: 50px;
+    color:#9b9487;
   }
 
   .slider-row{
