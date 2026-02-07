@@ -110,22 +110,38 @@
                 <textarea name="description" style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;" rows="4">{{ old('description') }}</textarea>
             </div>
 
-            {{-- Buttons --}}
-            <div style="display:flex; gap:10px;">
-                <button type="submit"
-                    style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; background:#fff; cursor:pointer;">
-                    Update
-                </button>
-
+             {{-- Buttons --}}
+            <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">
                 <a href="{{ route('admin.hotels.index') }}"
-                    style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
+                    style="
+       padding:10px 22px;
+       border:1px solid #bbb;
+       border-radius:10px;
+       background:#fff;
+       color:#111;
+       text-decoration:none;
+       font-size:16px;
+       line-height:1;
+       box-shadow:0 1px 0 rgba(0,0,0,.08);
+     ">
                     Cancel
                 </a>
+
+                <button type="submit"
+                    style="
+            padding:10px 22px;
+            border:1px solid #444;
+            border-radius:10px;
+            background:#4b4f57;
+            color:#fff;
+            font-size:16px;
+            line-height:1;
+            cursor:pointer;
+            box-shadow:0 1px 0 rgba(0,0,0,.15);
+          ">
+                    Save
+                </button>
             </div>
-
-        </form>
-    </div>
-
     {{-- Country -> City filtering --}}
     <script>
         const cities = @json($cities);
