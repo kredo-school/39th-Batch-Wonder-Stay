@@ -1,3 +1,8 @@
+@extends('layouts.admin')
+
+@section('title', 'Admin | Accommodations')
+
+@section('content')
 <h1 style="margin:0 0 16px 0;">Add Room</h1>
 
 <div style="
@@ -49,7 +54,7 @@
             <label style="display:block; margin-bottom:6px; font-weight:600;">
                 Price
             </label>
-            <input type="text" name="price" inputmode="decimal" placeholder="e.g. 120.00"
+            <input type="text" name="price" inputmode="decimal" placeholder="e.g. $120.00"
                 style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;">
 
         </div>
@@ -111,17 +116,36 @@
         </div>
 
         {{-- Buttons --}}
-        <div style="display:flex; gap:10px;">
-            <button type="submit"
-                style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; background:#fff; cursor:pointer;">
-                Save
-            </button>
+            <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">
+                <a href="{{ route('admin.accommodations.index') }}"
+                    style="
+       padding:10px 22px;
+       border:1px solid #bbb;
+       border-radius:10px;
+       background:#fff;
+       color:#111;
+       text-decoration:none;
+       font-size:16px;
+       line-height:1;
+       box-shadow:0 1px 0 rgba(0,0,0,.08);
+     ">
+                    Cancel
+                </a>
 
-            <a href="{{ route('admin.accommodations.index') }}"
-                style="padding:8px 12px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
-                Cancel
-            </a>
-        </div>
-
-    </form>
+                <button type="submit"
+                    style="
+            padding:10px 22px;
+            border:1px solid #444;
+            border-radius:10px;
+            background:#4b4f57;
+            color:#fff;
+            font-size:16px;
+            line-height:1;
+            cursor:pointer;
+            box-shadow:0 1px 0 rgba(0,0,0,.15);
+          ">
+                    Save
+                </button>
+            </div>
 </div>
+@endsection
