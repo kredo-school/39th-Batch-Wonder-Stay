@@ -5,18 +5,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\TranslationController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\MainController;
 use App\Models\Region;
-
-Auth::routes();
-
-# Admin
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\HotelsController;
+use App\Http\Controllers\Admin\AccommodationsController;
+use App\Http\Controllers\Admin\UserController;
 
+Auth::routes();
 
 
 Route::get('/', function () {
@@ -56,6 +58,7 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
+
 // Admin routes
 Route::middleware(['auth', 'isAdmin'])
     ->prefix('admin')
@@ -63,9 +66,11 @@ Route::middleware(['auth', 'isAdmin'])
     ->group(function () {
 
         //Login to the dashboard
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        });
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        // users
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+        //paymentmethods
+        Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
@@ -78,5 +83,20 @@ Route::middleware(['auth', 'isAdmin'])
         //Countries
         Route::get('/countries', [CountriesController::class, 'index'])->name('countries.index');
         Route::delete('/countries/{country}', [CountriesController::class, 'destroy'])->name('countries.destroy');
-});
-  
+
+        // Hotels
+        Route::get('/hotels', [HotelsController::class, 'index'])->name('hotels.index');
+        Route::get('/hotels/create', [HotelsController::class, 'create'])->name('hotels.create');
+        Route::post('/hotels', [HotelsController::class, 'store'])->name('hotels.store');
+        Route::get('/hotels/{hotel}/edit', [HotelsController::class, 'edit'])->name('hotels.edit');
+        Route::patch('/hotels/{hotel}', [HotelsController::class, 'update'])->name('hotels.update');
+        Route::delete('/hotels/{hotel}', [HotelsController::class, 'destroy'])->name('hotels.destroy');
+
+        // Accommodations (Hotell Details)
+        Route::get('/accommodations', [AccommodationsController::class, 'index'])->name('accommodations.index');
+        Route::get('/accommodations/create', [AccommodationsController::class, 'create'])->name('accommodations.create');
+        Route::post('/accommodations', [AccommodationsController::class, 'store'])->name('accommodations.store');
+        Route::get('/accommodations/{hotelDetail}/edit', [AccommodationsController::class, 'edit'])->name('accommodations.edit');
+        Route::patch('/accommodations/{hotelDetail}', [AccommodationsController::class, 'update'])->name('accommodations.update');
+        Route::delete('/accommodations/{hotelDetail}', [AccommodationsController::class, 'destroy'])->name('accommodations.destroy');
+    });
