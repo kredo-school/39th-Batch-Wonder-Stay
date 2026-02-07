@@ -8,23 +8,26 @@ use Illuminate\Http\Request;
 
 class HotelController extends Controller
 {
-    public function index()
+    public function index(int $id)
     {
-        $regions = Region::orderBy('name')->get();
+        if ($id) {
+            $hotel = Hotel::with(['mainPhoto', 'photos'])->findOrFail($id);
+            return view('layouts.hotels.index', compact('hotel'));
+        }
 
-        $hotels = Hotel::with('mainPhoto')
+        $regions = Region::orderBy('name')->get();
+        $hotels  = Hotel::with('mainPhoto')
             ->select('id', 'name', 'region_id')
             ->orderBy('name')
             ->get();
 
-        return view('hotels.index', compact('regions', 'hotels'));
+        return view('hotels.list', compact('regions', 'hotels'));
     }
 
-    public function show($id)
+    public function show(int $id)
     {
-        $hotel = Hotel::with(['photos', 'mainPhoto'])
-            ->findOrFail($id);
+        $hotel = Hotel::with(['photos', 'mainPhoto'])->findOrFail($id);
 
-        return view('hotels.show', compact('hotel'));
+        return view('layouts.hotels.show', compact('hotel'));
     }
 }

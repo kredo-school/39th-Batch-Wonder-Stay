@@ -7,7 +7,7 @@
 <nav class="bg border ">
 
 </nav>
-{{-- KPI cards --}}
+  {{-- KPI cards --}}
   <div class="card">
     <p>TOTAL USERS</p>
     <h2>1,000</h2>
@@ -27,7 +27,7 @@
   </div>
 
 
-{{-- Quick actions --}}
+  {{-- Quick actions --}}
 <div class="dashboard-tables">
 
     {{-- Upcoming Check-ins --}}

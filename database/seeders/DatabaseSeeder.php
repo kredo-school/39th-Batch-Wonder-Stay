@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             LanguageSeeder::class,
+            HotelsTableSeeder::class,
+            HotelPhotosTableSeeder::class,
+            CountriesTableSeeder::class,
+            CitiesTableSeeder::class,
         ]);
     }
 }
