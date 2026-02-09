@@ -30,12 +30,18 @@ class HotelsController extends Controller
 }
 
 
-public function create()
+public function create(Request $request)
 {
-    $cities = City::with('country')->orderBy('name')->get();
-    $countries = Country::orderBy('name')->get(); // もしcountry selectがあるなら
+    $countries = Country::orderBy('name')->get();
 
-    return view('admin.hotels.create', compact('cities', 'countries'));
+    $countryId = $request->query('country_id');
+
+    $cities = City::query()
+        ->when($countryId, fn($q) => $q->where('country_id', $countryId))
+        ->orderBy('name')
+        ->get();
+
+    return view('admin.hotels.create', compact('countries', 'cities', 'countryId'));
 }
 
   public function store(Request $request)
