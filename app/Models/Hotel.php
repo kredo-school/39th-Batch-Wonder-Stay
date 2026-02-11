@@ -11,18 +11,16 @@ class Hotel extends Model
 {
     protected $fillable = [
         'name',
-        'city_id',
-        'region_id',
-        'country_id',
+        'concept',
+        'feature',
+        'service',
         'description',
         'address',
         'phone',
         'email',
-        'photos',
-    ];
-
-    protected $casts = [
-        'photos' => 'array',
+        'region_id',
+        'country_id',
+        'city_id',
     ];
 
     // Hotel belongs to Country
@@ -47,15 +45,8 @@ class Hotel extends Model
                     ->where('is_main', true);
     }
 
-    protected $fillable = [
-    'name','concept','feature','service','description',
-    'address','phone','email',
-    'region_id','country_id','city_id'
-    ];
-
     protected $casts = [
     'service' => 'array',
     'feature' => 'array',
     ];
 }
-

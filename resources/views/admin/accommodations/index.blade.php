@@ -82,81 +82,154 @@
                     </button>
                 </form>
 
-                {{-- ✅ Add Room button（ここ） --}}
-                <a href="{{ route('admin.accommodations.create', ['hotel_id' => $hotelId]) }}"
-                    style="padding:6px 12px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
-                    Add Room +
-                </a>
+               {{-- ✅ Add Room button (UPDATED) --}}
+<a href="{{ route('admin.accommodations.create', ['hotel_id' => $hotelId]) }}"
+    style="padding:6px 10px; border:1px solid #1f1d1d; border-radius:8px; text-decoration:none;">
+    Add +
+</a>
 
-            </div>
+</div>
 
-            @if (session('success'))
-                <div style="margin-bottom:12px; color:green;">
-                    {{ session('success') }}
-                </div>
-            @endif
+{{-- Table --}}
+<div style="border:1px solid #bbb; border-radius:10px; overflow:hidden;">
+    <table style="width:100%; border-collapse:collapse;">
 
+        <thead>
+            <tr style="background:#f5f5f5;">
+                <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Hotel</th>
+                <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Room No</th>
+                <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Status</th>
+                <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Actions</th>
+            </tr>
+        </thead>
 
-            {{-- Table --}}
-            <div style="border:1px solid #bbb; border-radius:10px; overflow:hidden;">
-                <table style="width:100%; border-collapse:collapse;">
+        <tbody>
+            {{-- Loop through each room --}}
+            @forelse ($rooms as $room)
+                <tr>
 
-                    <thead>
-                        <tr style="background:#f5f5f5;">
-                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Room Name</th>
-                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Room No</th>
-                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Status</th>
-                            <th style="text-align:left; padding:10px; border-bottom:1px solid #ddd;">Actions</th>
-                        </tr>
-                    </thead>
+                    {{-- Hotel --}}
+                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                        {{ $room->hotel->name ?? '-' }}
+                    </td>
 
-                    <tbody>
-                        @forelse ($rooms as $room)
-                            <tr>
-                                <td style="padding:10px;">
-                                    {{ $room->bed_type ?? '-' }}
-                                </td>
+                    {{-- Room No --}}
+                    <td style="padding:10px; border-bottom:1px solid #eee;">
+                        {{ $room->room_number ?? '-' }}
+                    </td>
 
-                                <td style="padding:10px;">
-                                    {{ $room->room_number ?? '-' }}
-                                </td>
+                    {{-- Status --}}
+                   <td style="padding:10px; border-bottom:1px solid #eee;">
 
-                                <td style="padding:10px;">
-                                    -
-                                </td>
+                        <form method="POST"
+                            action="{{ route('admin.accommodations.toggle', $room) }}"
+                            style="display:inline;">
+                            @csrf
+                            @method('PATCH')
 
-                                {{-- ✅ Actions 列（ここ！） --}}
-                                <td style="padding:10px; white-space:nowrap;">
-                                    <a href="{{ route('admin.accommodations.edit', $room) }}"
-                                        style="margin-right:6px; text-decoration:none;">
-                                        Edit
-                                    </a>
+                            <button type="submit"
+                                style="
+                                    padding:4px 10px;
+                                    border-radius:20px;
+                                    border:1px solid {{ $room->is_active ? '#198754' : '#dc3545' }};
+                                    background:#fff;
+                                    color:{{ $room->is_active ? '#198754' : '#dc3545' }};
+                                    font-size:12px;
+                                    font-weight:600;
+                                    cursor:pointer;
+                                ">
+                                {{ $room->is_active ? 'Available' : 'Unavailable' }}
+                            </button>
+                        </form>
 
-                                    <form method="POST" action="{{ route('admin.accommodations.destroy', $room) }}"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
+                    </td>
 
-                                        <button type="submit" disabled title="DB not ready yet"
-                                            style="background:none; border:none; color:#aaa; cursor:not-allowed;">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" style="padding:14px; text-align:center; color:#666;">
-                                    No rooms found.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
+                    {{-- Actions --}}
+                    <td style="padding:10px; border-bottom:1px solid #eee; white-space:nowrap;">
+                        <div style="display:flex; gap:6px; align-items:center;">
 
-                </table>
-            </div>
+                            {{-- Edit --}}
+                            <a href="{{ route('admin.accommodations.edit', $room) }}"
+                                style="padding:4px 8px; border:1px solid #bbb; border-radius:8px; text-decoration:none;">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
 
+                            {{-- Delete (modal open) --}}
+                            <button type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#delete-room-{{ $room->id }}"
+                                style="
+                                    padding:4px 8px;
+                                    border:1px solid #dc3545;
+                                    border-radius:8px;
+                                    background:#fff;
+                                    cursor:pointer;
+                                    color:#dc3545;
+                                ">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
 
-        </main>
-    </div>
+                            {{-- Delete Modal --}}
+                            <div class="modal fade" id="delete-room-{{ $room->id }}" tabindex="-1"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content border-danger">
+
+                                        <div class="modal-header border-danger">
+                                            <h3 class="h5 modal-title text-danger">
+                                                <i class="fa-solid fa-circle-exclamation"></i> Delete Room
+                                            </h3>
+                                            <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this room?</p>
+                                            <p class="mb-0 text-muted">
+                                                <strong>
+                                                    {{ $room->hotel->name }} / Room {{ $room->room_number }}
+                                                </strong>
+                                            </p>
+                                        </div>
+
+                                        <div class="modal-footer border-0">
+                                            <button type="button"
+                                                class="btn btn-outline-danger btn-sm"
+                                                data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+
+                                            <form method="POST"
+                                                action="{{ route('admin.accommodations.destroy', $room) }}"
+                                                style="margin:0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </td>
+
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4"
+                        style="padding:14px; text-align:center; color:#666;">
+                        No rooms found.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+
+    </table>
+</div>
 @endsection
