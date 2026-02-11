@@ -29,7 +29,8 @@ public function index(Request $request)
         });
     })
     ->when($hotelId, fn ($q) => $q->where('hotel_id', $hotelId))
-    ->get();
+    ->paginate(10);
+
 
 
     return view('admin.accommodations.index', compact(
@@ -121,7 +122,7 @@ public function index(Request $request)
             ->route('admin.accommodations.index')
             ->with('success', 'Room deleted successfully.');
     }
-    
+
     // Status (Accomodations)
     public function toggleStatus(HotelDetail $hotelDetail)
 {

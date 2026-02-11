@@ -232,4 +232,10 @@
 
     </table>
 </div>
+
+{{-- Pagination --}}
+<div style="margin-top:20px; display:flex; justify-content:center;">
+    {{ $rooms->links('pagination::bootstrap-5') }}
+</div>
+
 @endsection
