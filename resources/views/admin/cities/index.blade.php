@@ -4,7 +4,7 @@
 
 @section('content')
 
-
+    <h1 style="margin:0 0 16px 0;">Regions</h1>
     <div style="display:flex; gap:16px;">
 
         {{-- Sidebar (Region list mock) --}}

@@ -3,7 +3,7 @@
 @section('title', 'Admin | Accommodations')
 
 @section('content')
-
+    <h1 style="margin:0 0 16px 0;">Accommodations</h1>
     <div style="display:flex; gap:16px;">
 
         {{-- Sidebar --}}
