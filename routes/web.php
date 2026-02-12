@@ -68,9 +68,9 @@ Route::middleware(['auth', 'isAdmin'])
         //Login to the dashboard
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         // users
-        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
         //paymentmethods
-        Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods');
+        Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
