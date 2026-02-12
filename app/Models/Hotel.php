@@ -50,4 +50,3 @@ class Hotel extends Model
     'feature' => 'array',
     ];
 }
-

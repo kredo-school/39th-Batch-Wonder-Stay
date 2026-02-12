@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     */
+     * Run the migrations.　//既に追加されていてエラーになったのでコメントアウトしました。(pull後)
+     */                    //It was already added and caused an error, so I commented it out.
     public function up(): void
     {
-        Schema::table('countries', function (Blueprint $table) {
-            $table->foreignId('region_id')
-                  ->nullable()
-                  ->constrained('regions')
-                  ->nullOnDelete();
-        });
+        // Schema::table('countries', function (Blueprint $table) {
+        //     $table->foreignId('region_id')
+        //           ->nullable()
+        //           ->constrained('regions')
+        //           ->nullOnDelete();
+        // });
     }
 
     /**
@@ -24,9 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('countries', function (Blueprint $table) {
-            $table->dropForeign(['region_id']);
-            $table->dropColumn('region_id');
-        });
+        // Schema::table('countries', function (Blueprint $table) {
+        //     $table->dropForeign(['region_id']);
+        //     $table->dropColumn('region_id');
+        // });
     }
 };

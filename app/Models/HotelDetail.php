@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelDetail extends Model
 {
-    /**
-     * Table name
-     */
     protected $table = 'hotel_details';
 
-    /**
-     * Mass assignable attributes
-     */
+    public $timestamps = false;
+
     protected $fillable = [
         'hotel_id',
         'room_number',
@@ -22,17 +18,16 @@ class HotelDetail extends Model
         'capacity',
         'bed_type',
         'amenities',
+        'is_active',
+
     ];
 
-    /**
-     * Casts
-     * amenities は text だけど、将来 JSON 化しやすいように array に
-     */
-    protected $casts = [
-        'amenities' => 'array',
-        'price'     => 'decimal:2',
-        'size_area' => 'decimal:2',
-    ];
+   
+   protected $casts = [
+    'price'     => 'decimal:2',
+    'size_area' => 'decimal:2',
+];
+
 
     /**
      * Relationships

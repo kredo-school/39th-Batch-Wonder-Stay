@@ -99,4 +99,8 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/accommodations/{hotelDetail}/edit', [AccommodationsController::class, 'edit'])->name('accommodations.edit');
         Route::patch('/accommodations/{hotelDetail}', [AccommodationsController::class, 'update'])->name('accommodations.update');
         Route::delete('/accommodations/{hotelDetail}', [AccommodationsController::class, 'destroy'])->name('accommodations.destroy');
+
+        // Status
+        Route::patch('/accommodations/{hotelDetail}/toggle',[AccommodationsController::class, 'toggleStatus'])->name('accommodations.toggle');
+
     });
