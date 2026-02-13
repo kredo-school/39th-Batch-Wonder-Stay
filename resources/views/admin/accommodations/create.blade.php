@@ -21,7 +21,7 @@
             </ul>
         @endif
 
-        <form method="POST" action="{{ route('admin.accommodations.store') }}">
+        <form method="POST" action="{{ route('admin.accommodations.store') }}" enctype="multipart/form-data">
             @csrf
 
             {{-- Hotel --}}
@@ -142,6 +142,20 @@
                 </div>
             </div>
 
+
+          {{-- Photos --}}
+            <div style="margin-bottom:16px;">
+                <label style="display:block; margin-bottom:6px; font-weight:600;">
+                    Photos
+                </label>
+
+                {{-- Photos --}}
+                <input type="file" name="photos[]" multiple>
+
+                {{-- ⭐ ADD THIS --}}
+                <input type="hidden" name="is_active" value="1">
+
+            </div>
 
             {{-- Buttons --}}
             <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">

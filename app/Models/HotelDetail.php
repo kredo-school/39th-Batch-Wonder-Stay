@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RoomPhoto;   // ← IMPORTANT
+
 
 class HotelDetail extends Model
 {
@@ -36,4 +38,10 @@ class HotelDetail extends Model
     {
         return $this->belongsTo(Hotel::class);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(RoomPhoto::class, 'hotel_detail_id');
+    }
+
 }

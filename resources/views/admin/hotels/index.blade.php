@@ -6,7 +6,7 @@
 
     <h1 style="margin:0 0 16px 0;">Hotels</h1>
 
-    <div style="display:flex; gap:16px; align-items:flex-start;">
+    <div style="display:flex; gap:16px;">
 
         {{-- Sidebar --}}
         <aside

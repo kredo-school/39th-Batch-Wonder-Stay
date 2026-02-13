@@ -3,7 +3,7 @@
 @section('title', 'Admin | Accommodations')
 
 @section('content')
-
+    <h1 style="margin:0 0 16px 0;">Accommodations</h1>
     <div style="display:flex; gap:16px;">
 
         {{-- Sidebar --}}
@@ -14,6 +14,7 @@
     color:#fff;
     padding:14px;
     border-radius:10px;
+    height: fit-content;
   ">
             <div style="font-weight:700; margin-bottom:12px;">
                 Accommodation List
