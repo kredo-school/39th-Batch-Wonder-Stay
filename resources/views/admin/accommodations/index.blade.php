@@ -14,6 +14,7 @@
     color:#fff;
     padding:14px;
     border-radius:10px;
+    height: fit-content;
   ">
             <div style="font-weight:700; margin-bottom:12px;">
                 Accommodation List

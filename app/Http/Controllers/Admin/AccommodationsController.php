@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Hotel;
 use App\Models\HotelDetail;
+use App\Models\RoomPhoto;
 use Illuminate\Http\Request;
 
 class AccommodationsController extends Controller
@@ -22,7 +23,8 @@ public function index(Request $request)
         ->when($countryId, fn ($q) => $q->where('country_id', $countryId))
         ->get();
 
-    $rooms = HotelDetail::with('hotel')
+    $rooms = HotelDetail::with(['hotel', 'photos'])
+
     ->when($countryId, function ($q) use ($countryId) {
         $q->whereHas('hotel', function ($hotelQuery) use ($countryId) {
             $hotelQuery->where('country_id', $countryId);
@@ -72,7 +74,23 @@ public function index(Request $request)
 
         $data['is_active'] = true;   // ✅ ADD THIS LINE
 
-        HotelDetail::create($data);
+       $room = HotelDetail::create($data);
+
+        if ($request->hasFile('photos')) {
+
+            foreach ($request->file('photos') as $index => $photo) {
+
+                $path = $photo->store('rooms', 'public');
+
+               RoomPhoto::create([
+                    'hotel_detail_id' => $room->id,
+                    'path' => $path,
+                    'sort_order' => $index,  
+                ]);
+
+            }
+        }
+
 
 
         return redirect()
@@ -107,11 +125,31 @@ public function index(Request $request)
 
         $hotelDetail->update($data);
 
+       $hotelDetail->update($data);
+
+        /* ✅ PHOTO UPLOAD HERE */
+
+        if ($request->hasFile('photos')) {
+
+            foreach ($request->file('photos') as $index => $photo) {
+
+                $path = $photo->store('rooms', 'public');
+
+                RoomPhoto::create([
+                    'hotel_detail_id' => $hotelDetail->id,
+                    'path' => $path,
+                    'sort_order' => $index,
+                ]);
+            }
+        }
+
         return redirect()
             ->route('admin.accommodations.index', [
                 'hotel_id' => $hotelDetail->hotel_id,
             ])
             ->with('success', 'Room updated successfully.');
+
+
     }
 
     public function destroy(HotelDetail $hotelDetail)

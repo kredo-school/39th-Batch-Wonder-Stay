@@ -21,7 +21,10 @@
             </ul>
         @endif
         {{-- Edit accomodation form --}}
-        <form method="POST" action="{{ route('admin.accommodations.update', $hotelDetail) }}">
+     <form method="POST"
+      action="{{ route('admin.accommodations.update', $hotelDetail) }}"
+      enctype="multipart/form-data">
+
             @csrf
             @method('PATCH')
 
@@ -142,6 +145,31 @@
                 </div>
             </div>
 
+            {{-- ✅ Photos Preview --}}
+            @if($hotelDetail->photos->count())
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-weight:600;">Uploaded Photos</label>
+
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+
+                        @foreach($hotelDetail->photos as $photo)
+
+                            <img src="{{ asset('storage/' . $photo->path) }}"
+                                style="
+                                    width:70px;
+                                    height:70px;
+                                    object-fit:cover;
+                                    border-radius:8px;
+                                    border:1px solid #ddd;
+                                ">
+
+                        @endforeach
+
+                    </div>
+                </div>
+
+            @endif
 
             {{-- Buttons --}}
             <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">
