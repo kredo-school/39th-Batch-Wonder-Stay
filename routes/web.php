@@ -73,6 +73,7 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         // users
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/memo', [UserController::class, 'updateMemo'])->name('users.update_memo');
         //paymentmethods
         Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
 
