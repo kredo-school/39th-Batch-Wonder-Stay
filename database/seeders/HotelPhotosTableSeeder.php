@@ -59,11 +59,11 @@ class HotelPhotosTableSeeder extends Seeder
                 ['path' => 'images/brazil/service.jpg',    'sort_order' => 4, 'is_main' => false],
             ],
             "Claridge's" => [
-                ['path' => 'images/claridges/main.jpg', 'sort_order' => 0, 'is_main' => true],
-                ['path' => 'images/claridges/room.jpg',    'sort_order' => 1, 'is_main' => false],
-                ['path' => 'images/claridges/bath.jpg',    'sort_order' => 2, 'is_main' => false],
-                ['path' => 'images/claridges/dining.jpg',    'sort_order' => 3, 'is_main' => false],
-                ['path' => 'images/claridges/service.jpg',    'sort_order' => 4, 'is_main' => false],
+                ['path' => 'images/london/main.jpg', 'sort_order' => 0, 'is_main' => true],
+                ['path' => 'images/london/room.jpg',    'sort_order' => 1, 'is_main' => false],
+                ['path' => 'images/london/bath.jpg',    'sort_order' => 2, 'is_main' => false],
+                ['path' => 'images/london/dining.jpg',    'sort_order' => 3, 'is_main' => false],
+                ['path' => 'images/london/service.jpg',    'sort_order' => 4, 'is_main' => false],
             ],
             "Hotel Plaza Athénée Paris" => [
                 ['path' => 'images/paris/main.jpg', 'sort_order' => 0, 'is_main' => true],

@@ -21,7 +21,15 @@ class Hotel extends Model
         'region_id',
         'country_id',
         'city_id',
+        'continent',
+        'map_x',
+        'map_y',
     ];
+
+    public function region()
+    { 
+        return $this->belongsTo(Region::class); 
+    }
 
     // Hotel belongs to Country
     public function country()
@@ -48,5 +56,7 @@ class Hotel extends Model
     protected $casts = [
     'service' => 'array',
     'feature' => 'array',
+    'map_x' => 'decimal:2',
+    'map_y' => 'decimal:2',
     ];
 }
