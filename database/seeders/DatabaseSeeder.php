@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        $this->call([
+            $this->call([
             LanguageSeeder::class,
-            HotelsTableSeeder::class,
-            HotelPhotosTableSeeder::class,
             CountriesTableSeeder::class,
             CitiesTableSeeder::class,
+            HotelsTableSeeder::class,
+            HotelPhotosTableSeeder::class,
         ]);
     }
 }
