@@ -173,4 +173,16 @@
 
         </main>
     </div>
+
+    {{-- Pagination --}}
+<div style="margin-top:20px; display:flex; justify-content:center;">
+    {{ $hotels->links('pagination::bootstrap-5') }}
+</div>
 @endsection
+
+<style>
+.small.text-muted {
+    display:none;
+}
+</style>
+

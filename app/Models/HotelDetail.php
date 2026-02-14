@@ -40,8 +40,10 @@ class HotelDetail extends Model
     }
 
     public function photos()
-    {
-        return $this->hasMany(RoomPhoto::class, 'hotel_detail_id');
-    }
+{
+    return $this->hasMany(RoomPhoto::class)
+                ->orderByDesc('is_main')   
+                ->orderBy('sort_order');   
+}
 
 }

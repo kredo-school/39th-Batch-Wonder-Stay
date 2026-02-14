@@ -23,15 +23,32 @@ public function index(Request $request)
         ->when($countryId, fn ($q) => $q->where('country_id', $countryId))
         ->get();
 
-    $rooms = HotelDetail::with(['hotel', 'photos'])
+   $rooms = HotelDetail::with(['hotel', 'photos'])
+
+    ->when($search, function ($q) use ($search) {
+
+        $q->where(function ($sub) use ($search) {
+
+            $sub->where('id', $search)
+                ->orWhere('room_number', 'like', "%{$search}%")
+                ->orWhereHas('hotel', function ($hotelQuery) use ($search) {
+                    $hotelQuery->where('name', 'like', "%{$search}%");
+                });
+
+        });
+
+    })
 
     ->when($countryId, function ($q) use ($countryId) {
         $q->whereHas('hotel', function ($hotelQuery) use ($countryId) {
             $hotelQuery->where('country_id', $countryId);
         });
     })
+
     ->when($hotelId, fn ($q) => $q->where('hotel_id', $hotelId))
+
     ->paginate(10);
+
 
 
 
@@ -70,7 +87,7 @@ public function index(Request $request)
         // ✅ Option A: checkbox → TEXT
         $data['amenities'] = $request->has('amenities')
             ? implode(', ', $request->amenities)
-            : null;
+            : '';
 
         $data['is_active'] = true;   // ✅ ADD THIS LINE
 
@@ -100,12 +117,19 @@ public function index(Request $request)
             ->with('success', 'Room added successfully.');
     }
 
-    public function edit(HotelDetail $hotelDetail)
-    {
-        $hotels = Hotel::orderBy('name')->get();
+public function edit(HotelDetail $hotelDetail)
+{
+    $hotels = Hotel::orderBy('name')->get();
 
-        return view('admin.accommodations.edit', compact('hotelDetail', 'hotels'));
-    }
+    $mainPhoto = $hotelDetail->photos()
+                             ->where('is_main', true)
+                             ->first();
+
+    return view('admin.accommodations.edit',
+        compact('hotelDetail', 'mainPhoto', 'hotels')
+    );
+}
+
 
     public function update(Request $request, HotelDetail $hotelDetail)
     {
@@ -116,41 +140,52 @@ public function index(Request $request)
             'size_area'   => 'nullable|numeric|min:0',
             'capacity'    => 'nullable|integer|min:1|max:10',
             'bed_type'    => 'nullable|string|max:100',
+            'photos.*' => 'image|max:2048',
+
+            
         ]);
 
         // Option A: checkbox → TEXT
         $data['amenities'] = $request->has('amenities')
             ? implode(', ', $request->amenities)
-            : null;
+            : '';
 
         $hotelDetail->update($data);
 
-       $hotelDetail->update($data);
 
         /* ✅ PHOTO UPLOAD HERE */
 
-        if ($request->hasFile('photos')) {
+       /* ✅ PHOTO UPLOAD HERE */
 
-            foreach ($request->file('photos') as $index => $photo) {
+if ($request->hasFile('photos')) {
 
-                $path = $photo->store('rooms', 'public');
+    $maxSort = RoomPhoto::where('hotel_detail_id', $hotelDetail->id)
+                        ->max('sort_order');
 
-                RoomPhoto::create([
-                    'hotel_detail_id' => $hotelDetail->id,
-                    'path' => $path,
-                    'sort_order' => $index,
-                ]);
-            }
-        }
+    $maxSort = $maxSort ?? -1;
 
-        return redirect()
-            ->route('admin.accommodations.index', [
-                'hotel_id' => $hotelDetail->hotel_id,
-            ])
-            ->with('success', 'Room updated successfully.');
+    foreach ($request->file('photos') as $photo) {
 
+        $maxSort++;
 
+        $path = $photo->store('rooms', 'public');
+
+        RoomPhoto::create([
+            'hotel_detail_id' => $hotelDetail->id,
+            'path' => $path,
+            'sort_order' => $maxSort,
+        ]);
     }
+}
+
+return redirect()
+    ->route('admin.accommodations.index', [
+        'hotel_id' => $hotelDetail->hotel_id,
+    ])
+    ->with('success', 'Room updated successfully.');
+
+}
+
 
     public function destroy(HotelDetail $hotelDetail)
     {
@@ -171,6 +206,19 @@ public function index(Request $request)
     return redirect()
         ->back()
         ->with('success', 'Room status updated.');
+}
+
+public function show(HotelDetail $hotelDetail)
+{
+    $hotels = Hotel::orderBy('name')->get();
+
+    $mainPhoto = $hotelDetail->photos()
+                             ->where('is_main', true)
+                             ->first();
+
+    return view('admin.accommodations.show',
+        compact('hotelDetail', 'hotels', 'mainPhoto')
+    );
 }
 
 }
