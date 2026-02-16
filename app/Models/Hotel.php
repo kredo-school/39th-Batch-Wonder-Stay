@@ -42,11 +42,14 @@ class Hotel extends Model
     public function mainPhoto()
     {
         return $this->hasOne(HotelPhoto::class)
-                    ->where('is_main', true);
+                    ->where('is_main', 1);
     }
 
     protected $casts = [
     'service' => 'array',
     'feature' => 'array',
     ];
+
+    public function reservations(){ return $this->hasMany(Reservation::class); }
+    public function hotelDetails(){ return $this->hasMany(HotelDetail::class); }
 }

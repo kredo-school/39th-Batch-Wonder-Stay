@@ -110,8 +110,9 @@
   }
 </style>
 @php
+  $photos = $hotel->photos ?? collect();
   // main以外の写真を4枚取得（is_main=false優先、足りなければphotosから）
-  $extra = collect($hotel->photos ?? [])
+  $extra = $photos
       ->filter(fn($p) => !$p->is_main)
       ->sortBy('sort_order')
       ->values()
@@ -144,7 +145,7 @@
           @foreach($extra as $p)
             <a href="{{ route('hotels.show', $hotel->id) }}?start={{ 1 + $loop->index }}"
                 class="thumb">
-                <img src="{{ asset($p->path) }}" alt="{{ $hotel->name }}">
+                <img src="{{ asset($p->path) }}" alt="{{ $hotel->name }} ">
             </a>
           @endforeach
 
@@ -181,7 +182,7 @@
       <a href="{{ route('main') }}" class="big-btn btn-back">{{ __('Back') }}</a>
 
       {{-- 予約ルートがまだなら href="#" のままでもOK --}}
-      <a href="#"
+      <a href="{{ route('reservations.create', $hotel) }}"
          class="big-btn btn-reserve">
         {{ __('Reserve this hotel\'s room') }}
       </a>
