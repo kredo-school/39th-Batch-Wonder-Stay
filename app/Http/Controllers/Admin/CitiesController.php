@@ -24,7 +24,8 @@ class CitiesController extends Controller
             $q->where('country_id', $countryId);
         })
         ->orderBy('name')
-        ->get();
+        ->paginate(10);   // ✅ ← ONLY CHANGE
+
 
     // Regions for left sidebar
     $regions = \App\Models\Region::orderBy('name')->get();

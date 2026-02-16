@@ -74,7 +74,7 @@
                     <input type="hidden" name="country_id" value="{{ $countryId }}">
                     <input type="hidden" name="hotel_id" value="{{ $hotelId }}">
 
-                    <input type="text" name="search" value="{{ $search }}" placeholder="Search by ID or Name"
+                    <input type="text" name="search" value="{{ $search }}" placeholder="Search by Room No or Name"
                         style="padding:6px 10px; width:240px; border-radius:8px; border:1px solid #bbb;">
 
                     <button type="submit"
@@ -115,9 +115,27 @@
                     </td>
 
                     {{-- Room No --}}
-                    <td style="padding:10px; border-bottom:1px solid #eee;">
-                        {{ $room->room_number ?? '-' }}
-                    </td>
+                 <td style="padding:10px; border-bottom:1px solid #eee; white-space:nowrap;">
+
+                    {{ $room->room_number ?? '-' }}
+
+                    <a href="{{ route('admin.accommodations.show', $room) }}"
+                    style="
+                            margin-left:8px;
+                            padding:3px 8px;
+                            border:1px solid #bbb;
+                            border-radius:8px;
+                            font-size:12px;
+                            text-decoration:none;
+                            background:#fff;
+                            color:#333;
+                    ">
+                        Details
+                    </a>
+
+                </td>
+
+
 
                     {{-- Status --}}
                    <td style="padding:10px; border-bottom:1px solid #eee;">
@@ -240,3 +258,10 @@
 </div>
 
 @endsection
+
+<style>
+.small.text-muted {
+    display:none;
+}
+</style>
+

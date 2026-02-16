@@ -143,19 +143,89 @@
             </div>
 
 
-          {{-- Photos --}}
+            {{-- Photos --}}
             <div style="margin-bottom:16px;">
+
                 <label style="display:block; margin-bottom:6px; font-weight:600;">
                     Photos
                 </label>
 
-                {{-- Photos --}}
-                <input type="file" name="photos[]" multiple>
+                <div style="
+        display:flex;
+        gap:10px;
+        margin-top:6px;
+    ">
 
-                {{-- ⭐ ADD THIS --}}
+                    {{-- ✅ ADD BUTTON --}}
+                    <button type="button" onclick="document.getElementById('photoInput').click();"
+                        style="
+                width:130px;
+                height:44px;
+                border:1px solid #bbb;
+                border-radius:12px;
+                cursor:pointer;
+                background:#fff;
+                font-weight:600;
+                font-size:14px;
+                box-shadow:0 2px 6px rgba(0,0,0,0.08);
+            ">
+                        ＋ Add Photos
+                    </button>
+
+                    <input type="file" id="photoInput" name="photos[]" multiple accept="image/*" style="display:none;"
+                        onchange="previewImages(event)">
+
+                </div>
+
+                {{-- ✅ LIVE PREVIEW --}}
+                <div id="previewContainer"
+                    style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top:12px;
+    ">
+                </div>
+
+                {{-- Hidden --}}
                 <input type="hidden" name="is_active" value="1">
 
             </div>
+            {{-- JS --}}
+            <script>
+                function previewImages(event) {
+                    const container = document.getElementById('previewContainer');
+                    container.innerHTML = '';
+
+                    const files = event.target.files;
+
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+
+                        if (!file.type.startsWith('image/')) continue;
+
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+
+                            img.src = e.target.result;
+
+                            img.style.width = '75px';
+                            img.style.height = '75px';
+                            img.style.objectFit = 'cover';
+                            img.style.borderRadius = '12px';
+                            img.style.border = '2px solid #ddd';
+                            img.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+
+                            container.appendChild(img);
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                }
+            </script>
+
 
             {{-- Buttons --}}
             <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">

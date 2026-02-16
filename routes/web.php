@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\Admin\RoomPhotoController;
+
 
 Auth::routes();
 
@@ -107,5 +109,12 @@ Route::middleware(['auth', 'isAdmin'])
 
         // Status
         Route::patch('/accommodations/{hotelDetail}/toggle',[AccommodationsController::class, 'toggleStatus'])->name('accommodations.toggle');
+
+        // Room photos
+       Route::delete('/room-photos/{roomPhoto}',[RoomPhotoController::class, 'destroy'])->name('room-photos.destroy');
+       Route::patch('/room-photos/{roomPhoto}/main',[RoomPhotoController::class, 'setMain'])->name('room-photos.main');
+        
+        // Room details      
+       Route::get('/accommodations/{hotelDetail}',[AccommodationsController::class, 'show'])->name('accommodations.show');
 
     });

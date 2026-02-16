@@ -145,32 +145,295 @@
                 </div>
             </div>
 
-            {{-- ✅ Photos Preview --}}
-            @if($hotelDetail->photos->count())
+       {{-- ✅ Photos Preview --}}
+@if($hotelDetail->photos->count())
 
-                <div style="margin-bottom:16px;">
-                    <label style="font-weight:600;">Uploaded Photos</label>
+    @php
+        $mainPhoto = $hotelDetail->photos->firstWhere('is_main', true);
+    @endphp
 
-                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+    <div style="margin-bottom:20px;">
 
-                        @foreach($hotelDetail->photos as $photo)
+        <label style="
+            font-weight:600;
+            display:block;
+            margin-bottom:10px;
+            font-size:16px;
+        ">
+            Uploaded Photos
+        </label>
 
-                            <img src="{{ asset('storage/' . $photo->path) }}"
-                                style="
-                                    width:70px;
-                                    height:70px;
-                                    object-fit:cover;
-                                    border-radius:8px;
-                                    border:1px solid #ddd;
-                                ">
+        {{-- delete panel --}}
+<div id="deletePanel" style="
+    display:none;
+    margin-top:14px;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    background:#fafafa;
+">
 
-                        @endforeach
+ <div style="font-weight:600; margin-bottom:10px; color:#d9534f;">
+    Select photo to delete
+</div>
 
-                    </div>
-                </div>
 
-            @endif
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
 
+      @foreach($hotelDetail->photos as $photo)
+
+    <img id="photo-{{ $photo->id }}"
+         src="{{ asset('storage/' . $photo->path) }}"
+         onclick="deletePhoto({{ $photo->id }})"
+
+                 style="
+                    width:75px;
+                    height:75px;
+                    object-fit:cover;
+                    border-radius:10px;
+                    border:1px solid #ccc;
+                    cursor:pointer;
+                    transition:0.2s;
+                 "
+                 onmouseover="this.style.transform='scale(1.08)'"
+                 onmouseout="this.style.transform='scale(1)'"
+            >
+
+        @endforeach
+
+    </div>
+
+</div>
+        {{-- ✅ MAIN PHOTO --}}
+        @if($mainPhoto)
+
+            <div style="margin-bottom:12px;">
+
+                <img src="{{ asset('storage/' . $mainPhoto->path) }}"
+                     style="
+                        width:150px;
+                        height:150px;
+                        object-fit:cover;
+                        border-radius:18px;
+                        border:2px solid #4b4f57;
+                        box-shadow:0 6px 14px rgba(0,0,0,0.18);
+                     ">
+
+            </div>
+
+        @endif
+
+        {{-- ✅ OTHER PHOTOS --}}
+        <div style="
+            display:flex;
+            gap:10px;
+            overflow-x:auto;
+            padding:4px 0;
+        ">
+
+            @foreach($hotelDetail->photos->where('is_main', false) as $photo)
+
+                <img src="{{ asset('storage/' . $photo->path) }}"
+                     onclick="setMainPhoto({{ $photo->id }})"
+                     style="
+                        width:75px;
+                        height:75px;
+                        object-fit:cover;
+                        border-radius:12px;
+                        border:2px solid #ddd;
+                        cursor:pointer;
+                        transition:0.2s;
+                     "
+                     onmouseover="this.style.transform='scale(1.08)'"
+                     onmouseout="this.style.transform='scale(1)'"
+                >
+
+            @endforeach
+
+              {{-- ✅ LIVE PREVIEW AREA --}}
+<div id="previewContainer" style="
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+"></div>
+
+        </div>
+
+    </div>
+
+@endif
+
+<div style="
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+">
+
+    {{-- ✅ ADD BUTTON --}}
+    <button type="button"
+        onclick="document.getElementById('photoInput').click();"
+        style="
+            width:130px;
+            height:44px;
+            border:1px solid #bbb;
+            border-radius:12px;
+            cursor:pointer;
+            background:#fff;
+            font-weight:600;
+            font-size:14px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.08);
+        ">
+        ＋ Add Photos
+    </button>
+  
+
+    <input type="file"
+       id="photoInput"
+       name="photos[]"
+       multiple
+       accept="image/*"
+       style="display:none;"
+       onchange="previewImages(event)">
+
+<script>
+function previewImages(event)
+{
+    const container = document.getElementById('previewContainer');
+    const files = event.target.files;
+
+    for (let i = 0; i < files.length; i++)
+    {
+        const file = files[i];
+
+        if (!file.type.startsWith('image/')) continue;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e)
+        {
+            const img = document.createElement('img');
+
+            img.src = e.target.result;
+
+            img.style.width = '75px';
+            img.style.height = '75px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '12px';
+            img.style.border = '2px solid #ddd';
+            img.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+
+            container.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+
+    {{-- ✅ DELETE BUTTON --}}
+    @if($mainPhoto)
+   <button type="button"
+    onclick="openDeleteModal()"
+    style="
+        width:90px;
+        height:44px;
+        border:1px solid #d9534f;
+        border-radius:12px;
+        background:#fff;
+        color:#d9534f;
+        font-weight :600;
+        cursor:pointer;
+">
+    Delete
+</button>
+
+
+    @endif
+
+</div>
+
+
+
+
+<script>
+function setMainPhoto(photoId)
+{
+    fetch('/admin/room-photos/' + photoId + '/main', {
+        method: 'PATCH',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => {
+        if (res.ok) location.reload();
+    });
+}
+
+function deleteMainPhoto(photoId)
+{
+    if (!confirm('Delete main photo?')) return;
+
+    fetch('/admin/room-photos/' + photoId, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => {
+        if (res.ok) location.reload();
+    });
+}
+
+// delete panel
+function openDeletePanel()
+{
+    const panel = document.getElementById('deletePanel');
+
+    panel.style.display =
+        panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function deletePhoto(photoId)
+{
+    if (!confirm('Delete this photo?')) return;
+
+    fetch('/admin/room-photos/' + photoId, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    })
+    .then(res => {
+
+        if (res.ok)
+        {
+            const img = document.getElementById('modal-photo-' + photoId);
+
+            if (img) img.remove();
+        }
+
+    });
+}
+
+
+
+function openDeleteModal()
+{
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+
+function closeDeleteModal()
+{
+    document.getElementById('deleteModal').style.display = 'none';
+}
+</script>
+
+    
             {{-- Buttons --}}
             <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:18px;">
                 <a href="{{ route('admin.accommodations.index') }}"
@@ -207,4 +470,90 @@
         </form>
 
     </div>
+
+    <div id="deleteModal" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:999;
+    align-items:center;
+    justify-content:center;
+">
+
+  <div style="
+    width:720px;
+    max-height:520px;
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+    overflow-y:auto;
+    border:2px solid #d9534f;
+">
+
+
+        <div style="
+            font-size:18px;
+            font-weight:600;
+            margin-bottom:16px;
+            color:#d9534f;
+        ">
+            Select photo to delete
+        </div>
+
+        <div style="
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        ">
+
+           @foreach($hotelDetail->photos as $photo)
+
+    <img id="modal-photo-{{ $photo->id }}"
+         src="{{ asset('storage/' . $photo->path) }}"
+         onclick="deletePhoto({{ $photo->id }})"
+
+                     style="
+                        width:90px;
+                        height:90px;
+                        object-fit:cover;
+                        border-radius:12px;
+                        cursor:pointer;
+                        border:2px solid #eee;
+                        transition:0.2s;
+                     "
+                     onmouseover="this.style.transform='scale(1.05)'"
+                     onmouseout="this.style.transform='scale(1)'"
+                >
+
+            @endforeach
+
+        </div>
+
+        <div style="
+            display:flex;
+            justify-content:flex-end;
+            margin-top:20px;
+        ">
+            <button onclick="closeDeleteModal()"style="
+                    padding:10px 18px;
+                    border:1px solid #4b4f57;
+                    border-radius:10px;
+                    background:#4b4f57;
+                    color:white;
+                    font-weight:600;
+                    cursor:pointer;
+                    transition:0.2s;
+                "
+                onmouseover="this.style.opacity='0.85'"
+                onmouseout="this.style.opacity='1'">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
 @endsection
