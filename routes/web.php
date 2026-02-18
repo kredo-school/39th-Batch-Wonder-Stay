@@ -69,10 +69,18 @@ Route::middleware('auth')->group(function () {
     )->name('reservations.create');
 
     Route::post(
+        '/hotels/{hotel}/reservation/confirm',
+        [ReservationController::class, 'confirm']
+    )->name('reservations.confirm');
+    
+    Route::post(
         '/hotels/{hotel}/reservation',
         [ReservationController::class, 'store']
     )->name('reservations.store');
-
+    
+    Route::get('/reservations/notification', function(){
+        return view('reservations.notification');
+    })->name('reservations.notification');
 });
 
 // Admin routes
@@ -87,6 +95,9 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         //paymentmethods
         Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
+        Route::patch('/payment-methods/{paymentMethod}/toggle', 
+            [PaymentMethodController::class, 'toggle']
+        )->name('paymentmethods.toggle');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');

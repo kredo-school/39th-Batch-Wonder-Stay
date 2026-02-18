@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             HotelsTableSeeder::class,
             HotelPhotosTableSeeder::class,
             HotelDetailsTableSeeder::class,
+            PaymentMethodSeeder::class,
             
         ]);
     }

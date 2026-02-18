@@ -21,7 +21,7 @@ class HotelPhotosTableSeeder extends Seeder
                 ['path' => 'images/ritz-tokyo/ritz-room.avif',    'sort_order' => 1, 'is_main' => false],
                 ['path' => 'images/ritz-tokyo/ritz-sweet.avif',    'sort_order' => 2, 'is_main' => false],
                 ['path' => 'images/ritz-tokyo/ritz-5-dining.jpeg',    'sort_order' => 3, 'is_main' => false],
-                ['path' => 'images/ritz-tokyo/rit-4z-service.jpeg',    'sort_order' => 4, 'is_main' => false],
+                ['path' => 'images/ritz-tokyo/ritz-4-service.jpeg',    'sort_order' => 4, 'is_main' => false],
             ],
             'The Peninsula Beijing' => [
                 ['path' => 'images/the-peninsula-beijing/main.jpg', 'sort_order' => 0, 'is_main' => true],
