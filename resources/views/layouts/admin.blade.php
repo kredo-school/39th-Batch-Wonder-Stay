@@ -54,9 +54,9 @@
                     <a href="{{ route('admin.users.index') }}">Users</a>
                     <a href="#">Reservations</a>
                     <a href="{{ route('admin.paymentmethods.index') }}">Payment Method</a>
-                    <a href="#">Region</a>
-                    <a href="#">Hotels</a>
-                    <a href="#">Accommodations</a>
+                    <a href="{{ route('admin.cities.index') }}">Region</a>
+                    <a href="{{ route('admin.hotels.index') }}">Hotels</a>
+                    <a href="{{ route('admin.accommodations.index') }}">Accommodations</a>
                 </div>
             @endif
             <main class="container mt-4">

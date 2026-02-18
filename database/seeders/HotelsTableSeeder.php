@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Hotel;
+use App\Models\HotelPhoto;
 use App\Models\Region;
 use App\Models\Country;
 use App\Models\City;

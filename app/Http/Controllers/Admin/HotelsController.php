@@ -21,7 +21,7 @@ class HotelsController extends Controller
     ->when($countryId, fn ($q) => $q->where('country_id', $countryId))
     ->when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
     ->orderBy('name')
-    ->get();
+    ->paginate(10);   // ✅ ← ONLY CHANGE
 
 
     return view('admin.hotels.index', compact(

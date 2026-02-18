@@ -93,6 +93,7 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         // users
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/memo', [UserController::class, 'updateMemo'])->name('users.update_memo');
         //paymentmethods
         Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
         Route::patch('/payment-methods/{paymentMethod}/toggle', 
@@ -129,5 +130,12 @@ Route::middleware(['auth', 'isAdmin'])
 
         // Status
         Route::patch('/accommodations/{hotelDetail}/toggle',[AccommodationsController::class, 'toggleStatus'])->name('accommodations.toggle');
+
+        // Room photos
+       Route::delete('/room-photos/{roomPhoto}',[RoomPhotoController::class, 'destroy'])->name('room-photos.destroy');
+       Route::patch('/room-photos/{roomPhoto}/main',[RoomPhotoController::class, 'setMain'])->name('room-photos.main');
+        
+        // Room details      
+       Route::get('/accommodations/{hotelDetail}',[AccommodationsController::class, 'show'])->name('accommodations.show');
 
     });

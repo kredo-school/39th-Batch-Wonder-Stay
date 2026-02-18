@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RoomPhoto;   // ← IMPORTANT
+
 
 class HotelDetail extends Model
 {
@@ -38,4 +40,11 @@ class HotelDetail extends Model
     }
 
     public function reservations(){ return $this->hasMany(Reservation::class); }
+    public function photos()
+{
+    return $this->hasMany(RoomPhoto::class)
+                ->orderByDesc('is_main')   
+                ->orderBy('sort_order');   
+}
+
 }
