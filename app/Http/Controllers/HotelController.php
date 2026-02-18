@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\HotelPhoto;
 use App\Models\Region;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class HotelController extends Controller
     public function index(int $id)
     {
         if ($id) {
-            $hotel = Hotel::with(['mainPhoto', 'photos'])->findOrFail($id);
+            $hotel = Hotel::with(['photos', 'mainPhoto'])->findOrFail($id);
             return view('layouts.hotels.index', compact('hotel'));
         }
 
@@ -27,7 +28,6 @@ class HotelController extends Controller
     public function show(int $id)
     {
         $hotel = Hotel::with(['photos', 'mainPhoto'])->findOrFail($id);
-
         return view('layouts.hotels.show', compact('hotel'));
     }
 }

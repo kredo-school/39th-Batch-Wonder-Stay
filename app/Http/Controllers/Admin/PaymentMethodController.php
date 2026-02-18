@@ -10,64 +10,15 @@ class PaymentMethodController extends Controller
 {
     public function index()
     {
-        $visa = new PaymentMethod([
-            'name' => 'VISA',
-            'code' => 'visa',
-            'type' => 'credit_card',
-            'is_enabled' => true,
-        ]);
+        $paymentMethods = PaymentMethod::orderBy('type')->orderBy('name')->get();
 
-        $jcb = new PaymentMethod([
-            'name' => 'JCB',
-            'code' => 'jcb',
-            'type' => 'credit_card',
-            'is_enabled' => false,
-        ]);
+        return view('admin.payment-methods', compact('paymentMethods'));
+    }
 
-        $amex = new PaymentMethod([
-            'name' => 'American Express',
-            'code' => 'amex',
-            'type' => 'credit_card',
-            'is_enabled' => false,
-        ]);
+    public function toggle(PaymentMethod $paymentMethod)
+    {
+        $paymentMethod->update(['is_enabled' => !$paymentMethod->is_enabled]);
 
-        $mastercard = new PaymentMethod([
-            'name' => 'Mastercard',
-            'code' => 'mastercard',
-            'type' => 'credit_card',
-            'is_enabled' => true,
-        ]);
-
-        $paypal = new PaymentMethod([
-            'name' => 'PayPal',
-            'code' => 'paypal',
-            'type' => 'digital_wallet',
-            'is_enabled' => true,
-        ]);
-
-        $applePay = new PaymentMethod([
-            'name' => 'Apple Pay',
-            'code' => 'apple_pay',
-            'type' => 'digital_wallet',
-            'is_enabled' => false,
-        ]);
-
-        $googlePay = new PaymentMethod([
-            'name' => 'Google Pay',
-            'code' => 'google_pay',
-            'type' => 'digital_wallet',
-            'is_enabled' => false,
-        ]);
-
-        return view('admin.payment-methods', compact(
-            'visa',
-            'jcb',
-            'amex',
-            'mastercard',
-            'paypal',
-            'applePay',
-            'googlePay'
-        ));
-        
+        return back();
     }
 }

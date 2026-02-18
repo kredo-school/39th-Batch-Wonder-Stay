@@ -39,6 +39,7 @@ class HotelDetail extends Model
         return $this->belongsTo(Hotel::class);
     }
 
+    public function reservations(){ return $this->hasMany(Reservation::class); }
     public function photos()
 {
     return $this->hasMany(RoomPhoto::class)

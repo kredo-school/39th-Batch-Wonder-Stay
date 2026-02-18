@@ -305,37 +305,43 @@ class HotelsTableSeeder extends Seeder
             // ← ホテル増やすときはここに足すだけ
         ];
 
-        foreach ($data as $row) {
+        foreach ($data as $index => $row) {
             $region  = Region::where('name', $row['region'])->first();
-            if (! $region) continue;
-
             $country = Country::where('code', $row['country_code'])->first();
-            if (! $country) continue;
 
-            $city = City::where('name', $row['city'])
-                ->where('country_id', $country->id)
-                ->first();
-            if (! $city) continue;
+            if (! $region || ! $country) {
+                continue;
+            }
+
+            $city    = City::where('name', $row['city'])
+                        ->where('country_id', $country->id)
+                        ->first();
+
+            if (! $city) {
+                continue;
+            }
+
+            $update = [
+                'name' => $row['name'],
+                'concept' => $row['concept'],
+                'feature' => is_array($row['feature']) ? implode("\n", $row['feature']) : $row['feature'],
+                'service' => is_array($row['service']) ? implode("\n", $row['service']) : $row['service'],
+                'description' => $row['description'],
+                'address' => $row['address'],
+                'phone' => $row['phone'],
+                'email' => $row['email'],
+                'region_id' => $region->id,
+                'country_id' => $country->id,
+                'city_id' => $city->id,
+            ];
+
+            if (Schema::hasColumn('hotels', 'continent')) $update['continent'] = $row['continent'];
+            if (Schema::hasColumn('hotels', 'map_x'))     $update['map_x'] = $row['map_x'];
+            if (Schema::hasColumn('hotels', 'map_y'))     $update['map_y'] = $row['map_y'];
 
             Hotel::updateOrCreate(
-                ['name' => $row['name']],
-                [
-                    'concept' => $row['concept'],
-                    'feature' => $row['feature'],
-                    'service' => $row['service'],
-                    'description' => $row['description'],
-                    'address' => $row['address'],
-                    'phone' => $row['phone'],
-                    'email' => $row['email'],
-
-                    'region_id' => $region->id,
-                    'country_id' => $country->id,
-                    'city_id' => $city->id,
-
-                    'continent' => $row['continent'],
-                    'map_x'     => $row['map_x'],
-                    'map_y'     => $row['map_y'],
-                ],
+                ['id' => $index + 1],
+                $update
             );
         }
     }

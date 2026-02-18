@@ -100,25 +100,33 @@
 
 @php
   // 写真配列を作る（mainPhotoを先頭に、重複は除く）
-  $photos = collect($hotel->photos ?? [])
-    ->sortBy('sort_order')
-    ->values();
+  $photos = collect($hotel->photos ?? []);
+  
+  $photos = $photos->sortBy('sort_order')->values(); 
 
   // asset URL配列
   $photoUrls = $photos->map(fn($p) => asset($p->path))->values();
+
+  $total = $photoUrls->count();
+  $start = (int) request('start', 0);
+  if ($total <= 0) {
+    $start = 0;
+  }else{
+    $start = max(0, min($start, $total - 1));
+  }
 @endphp
 <div class="show-wrap">
   <div class="container">
     <div class="hotel-title">{{ $hotel->name }}</div>
 
-    @if($photoUrls->count() === 0)
-      <div class="mt-5 text-muted">No photos.</div>
+    @if($total === 0)
+      <div class="mt-5 text-muted">{{ __('No Image') }}</div>
     @else
       <div class="slider-row">
 
         {{-- 左サムネ --}}
         <div class="thumb d-none d-md-block">
-          <img id="thumbPrev" src="{{ $photoUrls[0] }}" alt="prev">
+          <img id="thumbPrev" src="{{ asset($photos->get(max(0, $start - 1))->path ?? '') }}" alt="prev">
         </div>
 
         {{-- 左矢印 --}}
@@ -128,7 +136,7 @@
 
         {{-- メイン --}}
         <div class="main-photo">
-          <img id="mainPhoto" src="{{ $photoUrls[0] }}" alt="main">
+          <img id="mainPhoto" src="{{ asset($photos->get($start)->path ?? '') }}" alt="main">
         </div>
 
         {{-- 右矢印 --}}
@@ -137,7 +145,7 @@
         </button>
         {{-- 右サムネ --}}
         <div class="thumb d-none d-md-block">
-          <img id="thumbNext" src="{{ $photoUrls[0] }}" alt="next">
+          <img id="thumbNext" src="{{ asset($photos->get(min($total - 1, $start + 1))->path ?? '') }}" alt="next">
         </div>
 
       </div>
@@ -151,7 +159,7 @@
 
         {{-- Proceed：予約へ（ルート名はあなたの予約ルートに合わせて変更） --}}
         <a class="big-btn btn-proceed text-decoration-none text-center"
-           href="#">
+           href="{{ route('reservations.create', $hotel) }}">
           Proceed to reserve
         </a>
       </div>

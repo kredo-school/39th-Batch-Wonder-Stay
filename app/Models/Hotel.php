@@ -50,7 +50,7 @@ class Hotel extends Model
     public function mainPhoto()
     {
         return $this->hasOne(HotelPhoto::class)
-                    ->where('is_main', true);
+                    ->where('is_main', 1);
     }
 
     protected $casts = [
@@ -59,4 +59,7 @@ class Hotel extends Model
     'map_x' => 'decimal:2',
     'map_y' => 'decimal:2',
     ];
+
+    public function reservations(){ return $this->hasMany(Reservation::class); }
+    public function hotelDetails(){ return $this->hasMany(HotelDetail::class); }
 }

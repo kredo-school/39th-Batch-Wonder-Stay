@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
 use App\Models\Country;
 use App\Models\Region;
@@ -51,14 +52,17 @@ class CountriesTableSeeder extends Seeder
             }
 
             foreach ($countries as $country) {
-                Country::firstOrCreate(
-                    [
-                        'name' => $country['name'],
-                    ],
-                    [
-                        'code' => $country['code'],
-                        'region_id' => $region->id,
-                    ]
+                $create = [
+                    'code' => $country['code'],   
+                ];
+
+                if (Schema::hasColumn('countries', 'region_id')) {
+                    $create['region_id'] = $region->id;
+                }
+
+                Country::updateOrCreate(
+                    ['name' => $country['name']],
+                    $create
                 );
             }
         }
