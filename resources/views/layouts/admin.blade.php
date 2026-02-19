@@ -53,7 +53,7 @@
 
                     <a href="{{ route('admin.users.index') }}">Users</a>
                     <a href="#">Reservations</a>
-                    <a href="{{ route('admin.paymentmethods.index') }}">Payment Method</a>
+                    <a href="{{ route('admin.paymentmethods.index') }}">Payment Methods</a>
                     <a href="#">Region</a>
                     <a href="#">Hotels</a>
                     <a href="#">Accommodations</a>

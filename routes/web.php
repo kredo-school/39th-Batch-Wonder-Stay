@@ -71,7 +71,9 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::patch('/users/{user}/memo', [UserController::class, 'updateMemo'])->name('users.update_memo');
         //paymentmethods
-        Route::get('/payment-methods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
+        Route::get('/paymentmethods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
+        Route::patch('/paymentmethods/{code}/enable', [PaymentMethodController::class, 'enable'])->name('paymentmethods.enable');
+        Route::patch('/paymentmethods/{code}/disable', [PaymentMethodController::class, 'disable'])->name('paymentmethods.disable');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
