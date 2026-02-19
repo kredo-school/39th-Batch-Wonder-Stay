@@ -12,13 +12,6 @@
     padding:16px;
   ">
 
-        {{-- Success message --}}
-        @if (session('success'))
-            <div style="margin-bottom:12px; color:green;">
-                {{ session('success') }}
-            </div>
-        @endif
-
         {{-- Validation error messages --}}
         @if ($errors->any())
             <ul style="margin-bottom:12px; color:#b00020;">

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Hotel;
+use App\Models\HotelPhoto;
 use App\Models\Region;
 use App\Models\Country;
 use App\Models\City;
@@ -37,6 +38,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => 'Tokyo, Japan, 107-6245',
                 'phone' => '+81 3-3423-8000',
                 'email' => 'rc.tyorz.room.reservation@ritzcarlton.com',
+                'continent' => 'Asia',
+                'map_x' => 68.81,
+                'map_y' => 58.47,
             ],
 
             [
@@ -58,6 +62,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "8 Goldfish Lane, Wangfujing, Beijing 100006, People's Republic of China",
                 'phone' => '86-10-8516-2888',
                 'email' => 'pbj@peninsula.com',
+                'continent' => 'Asia',
+                'map_x' => 54.76,
+                'map_y' => 52.80,
             ],
 
             [
@@ -76,6 +83,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "1 Aseana Avenue, Entertainment City, Paranaque, 1300 Manila, Philippines",
                 'phone' => '+632 8888-8888',
                 'email' => 'reserv@skytowerspins.com',
+                'continent' => 'Asia',
+                'map_x' => 57.14,
+                'map_y' => 76.80,
             ],
 
             [
@@ -94,6 +104,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "50 Central Park South, New York, New York, USA, 10019",
                 'phone' => '+1 212-308-9100',
                 'email' => 'reservations@ritzcarlton.com',
+                'continent' => 'North America',
+                'map_x' => 73.33,
+                'map_y' => 64.47,
             ],
 
             [
@@ -115,6 +128,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "100 Front Street West, Toronto, Ontario M5J 1E3",
                 'phone' => '+1 416-362-2222',
                 'email' => 'reservations@stregistoronto.com',
+                'continent' => 'North America',
+                'map_x' => 70.95,
+                'map_y' => 61.47,
             ],
 
             [
@@ -136,6 +152,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "Av. das Cataratas 1000, Iguassu Falls, PR 85600-000",
                 'phone' => '+55 42 3211-1234',
                 'email' => 'reservations@hoteldascataratas.com',
+                'continent' => 'South America',
+                'map_x' => 52.86,
+                'map_y' => 48.80,
             ],
 
             [
@@ -159,6 +178,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "100 Piccadilly, London W1J 9AT",
                 'phone' => '+44 20 7221 1234',
                 'email' => 'reservations@claridges.com',
+                'continent' => 'Europe',
+                'map_x' => 33.33,
+                'map_y' => 70.47,
             ],
 
             [
@@ -177,6 +199,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "100 Avenue Montaigne, 75008 Paris",
                 'phone' => '+33 1 53 42 22 22',
                 'email' => 'reservations@plaza-athenee.com',
+                'continent' => 'Europe',
+                'map_x' => 36.43,
+                'map_y' => 75.47,
             ],
 
             [
@@ -200,6 +225,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "Via del Corso 123, Rome, Italy",
                 'phone' => '+39 06 12345678',
                 'email' => 'reservations@hotel-eden.com',
+                'continent' => 'Europe',
+                'map_x' => 44.05,
+                'map_y' => 85.80,
             ],
 
             [
@@ -223,6 +251,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "123 Avenue Mohammed V, Marrakech",
                 'phone' => '+212 524 444 555',
                 'email' => 'reservations@royalmansour.com',
+                'continent' => 'Africa',
+                'map_x' => 29.76,
+                'map_y' => 14.14,
             ],
 
             [
@@ -246,6 +277,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "123 Main Road, Cape Town",
                 'phone' => '+27 21 123 4567',
                 'email' => 'reservations@mountnelson.com',
+                'continent' => 'Africa',
+                'map_x' => 50.00,
+                'map_y' => 87.14,
             ],
 
             [
@@ -264,6 +298,9 @@ class HotelsTableSeeder extends Seeder
                 'address' => "123 Crown Street, Perth",
                 'phone' => '+61 8 1234 5678',
                 'email' => 'reservations@crowntowersperth.com',
+                'continent' => 'Oceania',
+                'map_x' => 18.10,
+                'map_y' => 65.47,
             ],
             // ← ホテル増やすときはここに足すだけ
         ];
@@ -276,8 +313,8 @@ class HotelsTableSeeder extends Seeder
             if (! $country) continue;
 
             $city = City::where('name', $row['city'])
-                        ->where('country_id', $country->id)
-                        ->first();
+                ->where('country_id', $country->id)
+                ->first();
             if (! $city) continue;
 
             Hotel::updateOrCreate(
@@ -286,13 +323,19 @@ class HotelsTableSeeder extends Seeder
                     'concept' => $row['concept'],
                     'feature' => $row['feature'],
                     'service' => $row['service'],
+                    'description' => $row['description'],
                     'address' => $row['address'],
                     'phone' => $row['phone'],
                     'email' => $row['email'],
+
                     'region_id' => $region->id,
                     'country_id' => $country->id,
                     'city_id' => $city->id,
-                ]
+
+                    'continent' => $row['continent'],
+                    'map_x'     => $row['map_x'],
+                    'map_y'     => $row['map_y'],
+                ],
             );
         }
     }

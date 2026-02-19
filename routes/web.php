@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\MapController;
 
 Auth::routes();
 
@@ -58,6 +59,9 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
+
+//map
+Route::get('/map', [MapController::class, 'index'])->name('map.index');
 
 // Admin routes
 Route::middleware(['auth', 'isAdmin'])
@@ -102,4 +106,8 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/accommodations/{hotelDetail}/edit', [AccommodationsController::class, 'edit'])->name('accommodations.edit');
         Route::patch('/accommodations/{hotelDetail}', [AccommodationsController::class, 'update'])->name('accommodations.update');
         Route::delete('/accommodations/{hotelDetail}', [AccommodationsController::class, 'destroy'])->name('accommodations.destroy');
+
+        // Status
+        Route::patch('/accommodations/{hotelDetail}/toggle',[AccommodationsController::class, 'toggleStatus'])->name('accommodations.toggle');
+
     });
