@@ -9,6 +9,7 @@
     <div class="mb-4 p-3 bg-light rounded shadow-sm">
         <strong>{{ $hotels->count() }}{{ __(' found') }}</strong>
         <div class="text-muted small">
+            📍 {{ $destination }} <br>
             {{ $checkin }} → {{ $checkout }} / {{ $people }} {{ __('people') }}
         </div>
     </div>
@@ -73,7 +74,7 @@
                             <div>
                                 <small class="text-muted">Per one night</small><br>
                                 <strong class="fs-5">
-                                    {{ number_format($hotel->hotelDetails->min('price') ?? 0) }}
+                                    ${{ number_format($hotel->hotelDetails->min('price') ?? 0) }}
                                 </strong>
                             </div>
 
@@ -99,6 +100,10 @@
             <p class="text-muted">{{ __('Please change the date or number of people and search again.') }}</p>
         </div>
     @endforelse
-
+    <div class="text-center mt-5">
+        <a href="{{ url()->previous() }}" class="btn btn-outline-dark px-5 py-2">
+            Back
+        </a>
+    </div>
 </div>
 @endsection
