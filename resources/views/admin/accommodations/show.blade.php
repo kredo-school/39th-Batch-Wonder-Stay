@@ -111,7 +111,7 @@
                 padding:10px;
                 background:#f5f5f5;
             ">
-                {{ $hotelDetail->amenities }}
+                {{ implode(', ', $hotelDetail->amenities ?? []) }}
             </div>
         </div>
 

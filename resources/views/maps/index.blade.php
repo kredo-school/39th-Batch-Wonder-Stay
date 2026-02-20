@@ -188,9 +188,9 @@
 </div>
 
 <div class="actions">
-  <a href="{{ url()->previous() }}" class="btn-ws">Back</a>
+  <a href="{{ route('main') }}" class="btn-ws">Back</a>
   <a id="galleryBtn" href="#" class="btn-ws primary">Gallery</a>
-  <a href="#" class="btn-ws">Reserve this hotel</a>
+  <a id="reserveBtn" href="#" class="btn-ws">Reserve this hotel</a>
 </div>
 
 <script>
@@ -279,6 +279,7 @@
     }
 
     const h = filteredHotels[hotelIndex];
+    const reserveBtn = document.getElementById('reserveBtn');
 
     hotelImg.src = h.image ?? '';
     hotelName.textContent = h.name ?? '';
@@ -291,6 +292,7 @@
     hotelPhone.querySelector('.v').textContent = h.phone ?? '';
     hotelEmail.querySelector('.v').textContent = h.email ?? '';
     galleryBtn.href = `/hotels/${h.id}`; // show.blade.phpへ
+    reserveBtn.href = `/hotels/${h.id}/reservation`;
   }
 
   document.getElementById('prevCont').addEventListener('click', () => setContinent(continentIndex - 1));

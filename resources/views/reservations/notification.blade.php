@@ -22,13 +22,9 @@
             Your booking has been successfully completed.
         </p>
 
-        <p style="font-size:24px;margin-bottom:30px;">
-            We have sent the details to your email.
-        </p>
-
         <p style="font-size:24px;margin-bottom:50px;">
             You can check 
-            <a href="#" style="color:#3aa0e6;text-decoration:underline;">
+            <a href="{{ route('profile.show') }}" style="color:#3aa0e6;text-decoration:underline;">
                 here</a>.
         </p>
 

@@ -98,100 +98,60 @@
 <div class="mainpage-title pt-3 pb-4 h4 text-center">{{ __('Please find your dream stay') }}</div>
 
 <div class="container mx-auto">
-  <div class="row g-0 align-items-center search-bar">
+  <form action="{{ route('hotels.search') }}" method="GET">
+    <div class="row g-0 align-items-center search-bar">
 
-    <!-- destination -->
-    <div class="col-3">
-      <div class="search-box">
-        <i class="bi bi-search text-secondary"></i>
-        <input type="text" class="form-control border-0 p-0 shadow-none" placeholder="{{ __('Enter a destination or property') }}">
-      </div>
-    </div>
-
-    <!-- date -->
-    <div class="col-3">
+      <!-- destination -->
+      <div class="col-3">
         <div class="search-box">
-            <i class="bi bi-calendar3 text-secondary"></i>
-            <input type="date" class="form-control border-0 p-0 shadow-none">
-            <span class="vr mx-0"></span>
-            <i class="bi bi-calendar3 text-secondary"></i>
-            <input type="date" class="form-control border-0 p-0 shadow-none">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" name="destination" class="form-control border-0 p-0 shadow-none" placeholder="{{ __('Enter a destination or property') }}" value="{{ request('keyword') }}">
         </div>
-    </div>
+      </div>
 
-    <!-- people / rooms -->
-    <div class="col-3">
-      @php
-        $people = (int) request('people', 2);
-        $rooms  = (int) request('rooms', 1);
-        $open   = (int)request('guest_open', 0) === 1;
-      @endphp
+      <!-- date -->
+      <div class="col-3">
+          <div class="search-box">
+              <i class="bi bi-calendar3 text-secondary"></i>
+              <input type="date" name="checkin" class="form-control border-0 p-0 shadow-none" value="{{ request('checkin-date') }}">
+              <span class="vr mx-0"></span>
+              <i class="bi bi-calendar3 text-secondary"></i>
+              <input type="date" name="checkout" class="form-control border-0 p-0 shadow-none" value="{{ request('checkout-date') }}">
+          </div>
+      </div>
 
-      <div class="search-box guest-selector">
-        <a class="guest-summary"
-           href="{{ route('main', [
-            'guest_open' => $open ? 0 : 1,
-            'people' => $people,
-            'rooms' => $rooms]) }}">
+      <!-- people -->
+      <div class="col-3">
+        @php
+          $people = (int) request('people', 2);
+        @endphp
+
+        <div class="search-box guest-selector">
+
+          <input type="hidden" name="people" id="peopleInput" value="{{ $people }}">
+
           <span class="icon">👤</span>
-
           <div class="text">
-            <div>{{ $people }} {{ __('People') }}</div>
-            @if($rooms > 1)
-              <div>{{ $rooms }} {{ __('Rooms') }}</div>
-            @else
-              <div>{{ $rooms }} {{ __('Room') }}</div>
-            @endif
+            <div id="peopleText">{{ $people }} {{ __('People') }}</div>
           </div>
+          <select id="peopleSelect" class="form-select border-0 shadow-none">
+            @for($i=1; $i<=4; $i++)
+              <option value="{{ $i }}" @selected($people === $i)>{{ $i }}</option>
+            @endfor
+          </select>
+        </div>
+      </div>
 
-          <span class="arrow ms-auto">▼</span>
-        </a>
-
-        @if($open)
-          <div class="guest-dropdown">
-            <form method="GET" action="{{ url()->current() }}">
-              @foreach(request()->except(['people','rooms','guest_open']) as $key => $value)
-                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-              @endforeach
-
-              <div class="guest-row">
-                <label>{{ __('People') }}</label>
-                <select name="people">
-                  @for($i=1; $i<=10; $i++)
-                    <option value="{{ $i }}" @selected($people === $i)>{{ $i }}</option>
-                  @endfor
-                </select>
-              </div>
-
-              <div class="guest-row">
-                <label>{{ __('Room') }}</label>
-                <select name="rooms">
-                  @for($i=1; $i<=5; $i++)
-                    <option value="{{ $i }}" @selected($rooms === $i)>{{ $i }}</option>
-                  @endfor
-                </select>
-              </div>
-
-              <div class="d-flex justify-content-end gap-2">
-                <button type="submit" name="guest_open" value="0" class="btn guest-btn btn-sm">{{ __('Apply') }}</button>
-                <a class="btn btn-outline-secondary btn-sm"
-                   href="{{ url()->current() }}?guest_open={{ $open ? 0 : 1 }}&people={{ $people }}&rooms={{ $rooms }}">{{ __('Close') }}</a>
-              </div>
-            </form>
+      <!-- search button -->
+      <div class="col-3">
+          <div class="search-box justify-content-center border-right-0">
+              <button class="btn px-4 fw-semibold search-bar-btn" type="submit">
+                  <i class="bi bi-search text-dark"></i>
+              </button>
           </div>
-        @endif
       </div>
     </div>
-
-    <!-- search button -->
-    <div class="col-3">
-        <div class="search-box justify-content-center border-right-0">
-            <button class="btn px-4 fw-semibold search-bar-btn" type="button">
-                <i class="bi bi-search text-dark"></i>
-            </button>
-        </div>
-    </div>
-  </div>
+  </form>
 </div>
 
 <!-- Map page & List of hotels -->
@@ -301,5 +261,15 @@
           if (first) first.click();
         </script>
 </div>
+<script>
+  const select = document.getElementById('peopleSelect');
+  const input  = document.getElementById('peopleInput');
+  const text   = document.getElementById('peopleText');
+
+  select.addEventListener('change', () => {
+    input.value = select.value;
+    text.textContent = select.value + ' People';
+  });
+</script>
 
 @endsection

@@ -67,4 +67,9 @@ class Reservation extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    public function hotelDetail()
+    {
+        return $this->belongsTo(HotelDetail::class, 'hotel_detail_id');
+    }
 }
