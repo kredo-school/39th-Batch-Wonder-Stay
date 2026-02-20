@@ -100,6 +100,7 @@ class HotelController extends Controller
             'checkin' => $checkin,
             'checkout' => $checkout,
             'people' => $people,
+            'destination' =>$keyword,
         ]);
     }
 
