@@ -62,7 +62,7 @@
 </style>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1">
+        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm py-1 sticky-top">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/main') }}">
                     @guest
@@ -81,31 +81,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar --> <!--search bar-->
-                    @if (!Request::routeIs('login', 'register', 'password.request', 'password.email', 'password.reset', 'verification.notice'))
-                        <div class="container py-3">
-                            <form class="mx-auto" style="max-width: 700px;">
-                                <div class="input-group shadow-sm rounded-4 overflow-hidden border" style="height: 50px;">
-                                <!-- Check in -->
-                                <span class="input-group-text border-0">
-                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-IN') }}</span>
-                                </span>
-                                <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkin">
-
-                                <!-- Check out -->
-                                <span class="input-group-text border-0">
-                                    <span class="text-secondary small">{{ __('DATE FOR CHECK-OUT') }}</span>
-                                </span>
-                                <input type="date" class="form-control border-0 shadow-none text-dark" aria-label="checkout">
-
-                                <!-- Search -->
-                                <button class="btn px-4 fw-semibold search-bar-btn" type="button">
-                                    <i class="bi bi-search" style="color: black"></i>
-                                </button>
-                                </div>
-                            </form>
-                        </div>
-                    @endif
+                    
 
                     <!-- Right Side Of Navbar -->
 
@@ -155,6 +131,10 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
+                                    <a class="dropdown-item" href="{{ route('profile.show') }}">
+                                        {{ __('Profile') }}
+                                    </a>
                                 </div>
                             </li>
                         @endguest

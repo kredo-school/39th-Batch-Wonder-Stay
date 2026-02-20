@@ -141,4 +141,21 @@ class ReservationController extends Controller
             ]);
         }
     }
+
+        public function cancel(Reservation $reservation)
+        {
+            //Only guest's reservation can be cancelled
+            if ($reservation->user_id !== auth()->id()) {
+                abort(403);
+            }
+
+            // If already cancelled, do nothing
+            if ($reservation->status === 'cancelled') {
+                return back();
+            }
+
+            $reservation->update(['status' => 'cancelled']);
+
+            return back()->with('success', 'Reservation cancelled.');
+        }
 }

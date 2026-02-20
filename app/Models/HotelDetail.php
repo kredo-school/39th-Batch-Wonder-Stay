@@ -28,6 +28,7 @@ class HotelDetail extends Model
    protected $casts = [
     'price'     => 'decimal:2',
     'size_area' => 'decimal:2',
+    'amenities' => 'array',
 ];
 
 

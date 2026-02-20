@@ -17,7 +17,10 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\MapController;
+use App\Http\Controllers\Admin\RoomPhotoController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ProfileController;
 
 Auth::routes();
 
@@ -45,6 +48,14 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
 
+// Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
 //Hotels(Customer)
 Route::get('/hotels/{id}', [HotelController::class, 'index'])
     ->whereNumber('id')
@@ -52,6 +63,8 @@ Route::get('/hotels/{id}', [HotelController::class, 'index'])
 Route::get('/hotels/{id}/photos', [HotelController::class, 'show'])
     ->whereNumber('id')
     ->name('hotels.show');
+Route::get('/hotels/search', [HotelController::class, 'search'])
+    ->name('hotels.search');
 
 Route::view('/map', 'layouts.map.index')->name('map.index');
 
@@ -59,6 +72,9 @@ Route::view('/map', 'layouts.map.index')->name('map.index');
 Route::get('/regions', [RegionController::class, 'index']);
 Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
     ->name('regions.hotels');
+
+//map
+Route::get('/map', [MapController::class, 'index'])->name('map.index');
 
 //Reservations
 Route::middleware('auth')->group(function () {
@@ -81,6 +97,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservations/notification', function(){
         return view('reservations.notification');
     })->name('reservations.notification');
+
+    Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel'); 
 });
 
 // Admin routes

@@ -3,7 +3,6 @@
 @section('title', 'Reservation')
 
 @section('content')
-
 <style>
 .page-title{
     text-align:center;

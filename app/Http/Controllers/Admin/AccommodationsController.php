@@ -81,15 +81,14 @@ public function index(Request $request)
             'capacity'    => 'nullable|integer|min:1|max:10',
             'bed_type'    => 'nullable|string|max:100',
             'is_active'   => 'required|in:0,1',
-
+            'amenities' => 'nullable|array',
+            'amenities.*' => 'string|max:255',
         ]);
 
         // ✅ Option A: checkbox → TEXT
-        $data['amenities'] = $request->has('amenities')
-            ? implode(', ', $request->amenities)
-            : '';
+        $data['amenities'] = $request->amenities ?? [];
 
-        $data['is_active'] = true;   // ✅ ADD THIS LINE
+        $data['is_active'] = 1;   // ✅ ADD THIS LINE
 
        $room = HotelDetail::create($data);
 
@@ -146,9 +145,7 @@ public function edit(HotelDetail $hotelDetail)
         ]);
 
         // Option A: checkbox → TEXT
-        $data['amenities'] = $request->has('amenities')
-            ? implode(', ', $request->amenities)
-            : '';
+        $data['amenities'] = $request->amenities ?? [];
 
         $hotelDetail->update($data);
 
