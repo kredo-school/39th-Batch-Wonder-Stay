@@ -4,7 +4,7 @@
 
 @section('content')
 
-
+    <h1 style="margin:0 0 16px 0;">Regions</h1>
     <div style="display:flex; gap:16px;">
 
         {{-- Sidebar (Region list mock) --}}
@@ -204,4 +204,16 @@
 
         </main>
     </div>
+
+    {{-- Pagination --}}
+<div style="margin-top:20px; display:flex; justify-content:center;">
+    {{ $cities->links('pagination::bootstrap-5') }}
+</div>
 @endsection
+
+<style>
+.small.text-muted {
+    display:none;
+}
+</style>
+

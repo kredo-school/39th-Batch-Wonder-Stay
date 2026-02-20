@@ -29,6 +29,16 @@ class PaymentMethodController extends Controller
 
         return view('admin.paymentmethods', compact('credit_cards', 'digital_wallets'));
         
+        $paymentMethods = PaymentMethod::orderBy('type')->orderBy('name')->get();
+
+        return view('admin.payment-methods', compact('paymentMethods'));
+    }
+
+    public function toggle(PaymentMethod $paymentMethod)
+    {
+        $paymentMethod->update(['is_enabled' => !$paymentMethod->is_enabled]);
+
+        return back();
     }
 
     public function enable($code)

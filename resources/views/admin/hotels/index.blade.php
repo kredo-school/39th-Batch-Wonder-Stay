@@ -6,7 +6,7 @@
 
     <h1 style="margin:0 0 16px 0;">Hotels</h1>
 
-    <div style="display:flex; gap:16px; align-items:flex-start;">
+    <div style="display:flex; gap:16px;">
 
         {{-- Sidebar --}}
         <aside
@@ -173,4 +173,16 @@
 
         </main>
     </div>
+
+    {{-- Pagination --}}
+<div style="margin-top:20px; display:flex; justify-content:center;">
+    {{ $hotels->links('pagination::bootstrap-5') }}
+</div>
 @endsection
+
+<style>
+.small.text-muted {
+    display:none;
+}
+</style>
+

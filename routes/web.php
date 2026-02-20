@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\Admin\RoomPhotoController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ProfileController;
 
 Auth::routes();
 
@@ -45,6 +48,14 @@ Route::get('/language/{code}', [LanguageController::class, 'switch'])
 Route::get('/translate-test', [TranslationController::class, 'show'])
     ->name('translate.test');
 
+// Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
 //Hotels(Customer)
 Route::get('/hotels/{id}', [HotelController::class, 'index'])
     ->whereNumber('id')
@@ -52,6 +63,8 @@ Route::get('/hotels/{id}', [HotelController::class, 'index'])
 Route::get('/hotels/{id}/photos', [HotelController::class, 'show'])
     ->whereNumber('id')
     ->name('hotels.show');
+Route::get('/hotels/search', [HotelController::class, 'search'])
+    ->name('hotels.search');
 
 Route::view('/map', 'layouts.map.index')->name('map.index');
 
@@ -62,6 +75,31 @@ Route::get('/regions/{region}/hotels', [RegionController::class, 'hotels'])
 
 //map
 Route::get('/map', [MapController::class, 'index'])->name('map.index');
+
+//Reservations
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/hotels/{hotel}/reservation',
+        [ReservationController::class, 'create']
+    )->name('reservations.create');
+
+    Route::post(
+        '/hotels/{hotel}/reservation/confirm',
+        [ReservationController::class, 'confirm']
+    )->name('reservations.confirm');
+    
+    Route::post(
+        '/hotels/{hotel}/reservation',
+        [ReservationController::class, 'store']
+    )->name('reservations.store');
+    
+    Route::get('/reservations/notification', function(){
+        return view('reservations.notification');
+    })->name('reservations.notification');
+
+    Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])->name('reservations.cancel'); 
+});
 
 // Admin routes
 Route::middleware(['auth', 'isAdmin'])
@@ -78,6 +116,9 @@ Route::middleware(['auth', 'isAdmin'])
         Route::get('/paymentmethods', [PaymentMethodController::class, 'index'])->name('paymentmethods.index');
         Route::patch('/paymentmethods/{code}/enable', [PaymentMethodController::class, 'enable'])->name('paymentmethods.enable');
         Route::patch('/paymentmethods/{code}/disable', [PaymentMethodController::class, 'disable'])->name('paymentmethods.disable');
+        Route::patch('/payment-methods/{paymentMethod}/toggle', 
+            [PaymentMethodController::class, 'toggle']
+        )->name('paymentmethods.toggle');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
@@ -109,5 +150,12 @@ Route::middleware(['auth', 'isAdmin'])
 
         // Status
         Route::patch('/accommodations/{hotelDetail}/toggle',[AccommodationsController::class, 'toggleStatus'])->name('accommodations.toggle');
+
+        // Room photos
+       Route::delete('/room-photos/{roomPhoto}',[RoomPhotoController::class, 'destroy'])->name('room-photos.destroy');
+       Route::patch('/room-photos/{roomPhoto}/main',[RoomPhotoController::class, 'setMain'])->name('room-photos.main');
+        
+        // Room details      
+       Route::get('/accommodations/{hotelDetail}',[AccommodationsController::class, 'show'])->name('accommodations.show');
 
     });

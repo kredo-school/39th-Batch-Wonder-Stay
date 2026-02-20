@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\PaymentMethod;
 
@@ -26,6 +27,16 @@ class PaymentMethodSeeder extends Seeder
 
         foreach ($methods as $method) {
             \App\Models\PaymentMethod::create($method);
+        }
+        foreach ($methods as $m) {
+            PaymentMethod::updateOrCreate(
+                ['code' => $m['code']],
+                [
+                    'name' => $m['name'],
+                    'type' => $m['type'],
+                    'is_enabled' => true,
+                ]
+            );
         }
     }    
 }
