@@ -52,7 +52,7 @@
                     <p class="sidebar-titile">Admin List</p>
 
                     <a href="{{ route('admin.users.index') }}">Users</a>
-                    <a href="#">Reservations</a>
+                    <a href="{{ route('admin.reservations.index') }}">Reservations</a>
                     <a href="{{ route('admin.paymentmethods.index') }}">Payment Method</a>
                     <a href="{{ route('admin.cities.index') }}">Region</a>
                     <a href="{{ route('admin.hotels.index') }}">Hotels</a>
@@ -64,9 +64,5 @@
         </main>
         </div>
         
-        
-
-        
-
     </body>
 </html>

@@ -89,7 +89,7 @@
                 </tr>
             </thead>
 
-            {{-- stlore data  --}}
+            {{-- user's data  --}}
             <tbody>
                 @foreach ($users as $user)
                     <tr>

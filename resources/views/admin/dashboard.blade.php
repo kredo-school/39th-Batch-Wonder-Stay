@@ -44,10 +44,10 @@
         <p class="fw-bold mb-2">Quick Actions</p>
         <div class="d-flex flex-wrap gap-2">
             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm bg-white">User Management</a>
-            <a href="#" class="btn btn-outline-secondary btn-sm bg-white">Reservation List</a>
+            <a href="{{ route('admin.reservations.index') }}" class="btn btn-outline-secondary btn-sm bg-white">Reservation List</a>
             <a href="{{ route('admin.paymentmethods.index') }}" class="btn btn-outline-secondary btn-sm bg-white">Payment Methods</a>
-            <a href="#" class="btn btn-outline-secondary btn-sm bg-white">Hotel Management</a>
-            <a href="#" class="btn btn-outline-secondary btn-sm bg-white">Accommodation Management</a>
+            <a href="{{ route('admin.hotels.index') }}" class="btn btn-outline-secondary btn-sm bg-white">Hotel Management</a>
+            <a href="{{ route('admin.accommodations.index') }}" class="btn btn-outline-secondary btn-sm bg-white">Accommodation Management</a>
         </div>
     </div>
 
