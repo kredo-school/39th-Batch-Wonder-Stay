@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\HotelsController;
 use App\Http\Controllers\Admin\AccommodationsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\Admin\RoomPhotoController;
 use App\Http\Controllers\ReservationController;
@@ -119,6 +120,8 @@ Route::middleware(['auth', 'isAdmin'])
         Route::patch('/payment-methods/{paymentMethod}/toggle', 
             [PaymentMethodController::class, 'toggle']
         )->name('paymentmethods.toggle');
+        //Reservation
+        Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
 
         //Cities
         Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
