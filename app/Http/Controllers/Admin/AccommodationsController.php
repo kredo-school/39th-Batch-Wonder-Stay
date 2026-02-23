@@ -76,6 +76,7 @@ public function index(Request $request)
         $data = $request->validate([
             'hotel_id'    => 'required|exists:hotels,id',
             'room_number' => 'required|string|max:50',
+            'room_type' => 'required|string|max:100',
             'price'       => 'nullable|numeric|min:0',
             'size_area'   => 'nullable|numeric|min:0',
             'capacity'    => 'nullable|integer|min:1|max:10',

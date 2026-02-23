@@ -101,7 +101,22 @@
                     @endforeach
                 </select>
             </div>
+{{-- Room Type --}}
+<div style="margin-bottom:14px;">
+    <label style="display:block; margin-bottom:6px; font-weight:600;">
+        Room Type
+    </label>
 
+    <select name="room_type"
+        style="width:100%; padding:8px; border:1px solid #bbb; border-radius:8px;">
+        <option value="">-- Select Room Type --</option>
+        @foreach (['Standard', 'Deluxe', 'Suite', 'Family', 'Executive'] as $type)
+            <option value="{{ $type }}" {{ old('room_type') === $type ? 'selected' : '' }}>
+                {{ $type }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
             {{-- Amenities --}}
             @php
